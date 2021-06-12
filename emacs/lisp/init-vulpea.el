@@ -108,6 +108,9 @@
    org-startup-folded t
    org-startup-indented t)
 
+  ;; org-ellipsis
+  (setq org-ellipsis " ▼") ;; for further use: ⤵
+
   ;; do not allow invisible edits (...)
   (setq org-catch-invisible-edits 'error)
 
