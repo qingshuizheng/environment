@@ -62,7 +62,11 @@
 
 (use-package which-key
   :diminish which-key-mode
-  :hook (after-init . which-key-mode))
+  :hook (after-init . which-key-mode)
+  ;; by z
+  :init
+  (setq which-key-idle-delay 0)
+  (setq which-key-idle-secondary-delay 0))
 
 (defvar kbd-escape-hook nil
   "A hook run after \\[keyboard-quit] is pressed.
