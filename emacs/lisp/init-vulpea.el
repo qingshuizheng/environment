@@ -171,6 +171,16 @@
 
 
 
+(use-package org-habit
+  :straight nil
+  :defer t
+  :init
+  (setq org-habit-graph-column 80)      ;; 中英混排，agenda-view 不整齐
+  (setq org-habit-today-glyph ?‖)
+  (setq org-habit-completed-glyph ?✓))
+
+
+
 (use-package org-clock
   :straight nil
   :defer t
