@@ -1,0 +1,3193 @@
+;; GokuRakuJoudo/in-the-wild.md at master · yqrashawn/GokuRakuJoudo - https://github.com/yqrashawn/GokuRakuJoudo/blob/master/in-the-wild.md
+;; dotfiles/karabiner.edn at master · narze/dotfiles - https://github.com/narze/dotfiles/blob/master/etc/karabiner.edn
+{:profiles 
+ 	       {:goku {:default true
+                  :alone   100 ; hold for .. ms to register single tap
+                  :held    100 ; TODO: not sure what it's for
+                  :delay   119 ; time after which the key press is delayed
+                  :sim     50} ; keys need to be pressed within this threshold to be considered simultaneous
+         }
+ :templates 
+            {
+             ;Alfred
+ 	           :alfred "osascript -e 'tell application \"Alfred 4\" to run trigger \"%s\" in workflow \"%s\" with argument \"%s\"'"
+
+             ;Keyboard Maestro
+             :km "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"%s\"'"
+             :set_letterToFind_var "osascript -e 'tell application \"Keyboard Maestro Engine\" to setvariable \"letterToFind\" to \"%s\"'"
+             :set_last_action_var "osascript -e 'tell application \"Keyboard Maestro Engine\" to setvariable \"last_action\" to \"%s\"'"
+
+             ;Hammerspoon
+             :hs "open -g hammerspoon://%s"
+
+             ;BetterTouchTool
+             :btt "osascript -e 'tell application \"BetterTouchTool\" to trigger_named \"%s\"'"
+
+             ;System Events
+             :open "open \"%s\""
+             :opena "open -a \"%s\" \"%s\""  ;; by z: open with specific application
+             :opengj "open -gj \"%s\""  ;; by z: open in background
+             :opengja "open -gj -a \"%s\" \"%s\""
+             :show        "osascript -e 'set appName to \"%s\"\nset startIt to false\ntell application \"System Events\"\n  if not (exists process appName) then\n    set startIt to true\n  else\n    set frontmost of process appName to true\n  end if\nend tell\nif startIt then\n  tell application appName to activate\nend if'\n"
+             :toggle      "osascript -e 'set appName to \"%s\"\nset startIt to false\ntell application \"System Events\"\n  if not (exists process appName) then\n    set startIt to true\n  else if frontmost of process appName then\n    set visible of process appName to false\n  else\n    set frontmost of process appName to true\n  end if\nend tell\nif startIt then\n  tell application appName to activate\nend if'"
+             :type        "osascript -e 'tell application \"System Events\" to keystroke \"%s\" as text'"
+
+             ;; :focus      "/usr/local/bin/yabai -m display --focus \"%s\" & /usr/local/bin/yabai -m space --focus \"%s\""
+
+            }
+
+ ;; :layers    {:tab-mode              {:key     :tab
+ ;;                                     :afterup [{:set ["yabai-move-mode" 0]}
+ ;;                                               {:set ["yabai-scale-mode" 0]}
+ ;;                                               {:set ["spec-mode" 0]}]
+ ;;                                     :condi   [:!comma-mode :!period-mode]}
+ ;;             :yabai-move-mode       {:key :f :condi :tab-mode}
+ ;;             :yabai-scale-mode      {:key :c :condi :tab-mode}
+ ;;             :spec-mode             {:key :s :condi :tab-mode}
+ ;;             ;; :yabai-insert-mode     {:key :i :condi :tab-mode}
+ ;;            }
+
+
+
+ :simlayers {
+             :escape-mode {:key :escape}
+             ; 
+             :f1-mode {:key :f1}
+             :f2-mode {:key :f2}
+             :f3-mode {:key :f3}
+             :f4-mode {:key :f4}
+             :f5-mode {:key :f5}
+             :f6-mode {:key :f6}
+             :f7-mode {:key :f7}
+             :f8-mode {:key :f8}
+             :f9-mode {:key :f9}
+             :f10-mode {:key :f10}
+             :f11-mode {:key :f11}
+             :f12-mode {:key :f12}
+             ;--
+             :grave_accent_and_tilde-mode {:key :grave_accent_and_tilde}
+             ;
+             :1-mode {:key :1}
+             :2-mode {:key :2}
+             :3-mode {:key :3}
+             :4-mode {:key :4}
+             :5-mode {:key :1}
+             :6-mode {:key :1}
+             :7-mode {:key :1}
+             :8-mode {:key :1}
+             :9-mode {:key :1}
+             :0-mode {:key :1}
+             :hyphen-mode {:key :hyphen}
+             :equal_sign-mode {:key :equal_sign}
+             ;
+             :delete_or_backspace-mode {:key :delete_or_backspace}
+             ;--
+             :tab-mode {:key :tab}
+             ;
+             :q-mode {:key :q}
+             :w-mode {:key :w}
+             :e-mode {:key :e}
+             :r-mode {:key :r}
+             :t-mode {:key :t}
+             :y-mode {:key :y}
+             :u-mode {:key :u}
+             :i-mode {:key :i}
+             :o-mode {:key :o}
+             :p-mode {:key :p}
+             ;
+             :open_bracket-mode {:key :open_bracket}
+             :close_bracket-mode {:key :close_bracket}
+             :backslash-mode {:key :backslash}
+             ;--
+             :caps_lock-mode {:key :caps_lock}
+             ;
+             :a-mode {:key :a}
+             :s-mode {:key :s}
+             :d-mode {:key :d}
+             :f-mode {:key :f}
+             :g-mode {:key :g}
+             :h-mode {:key :h}
+             :j-mode {:key :j}
+             :k-mode {:key :k}
+             :l-mode {:key :l}
+             ;
+             :semicolon-mode {:key :semicolon}
+             :quote-mode {:key :quote}
+             :return_or_enter-mode {:key :return_or_enter}
+             ;--
+             :left_shift-mode {:key :left_shift}
+             ;
+             :z-mode {:key :z}
+             :x-mode {:key :x}
+             :c-mode {:key :c}
+             :v-mode {:key :v}
+             :b-mode {:key :b}
+             :n-mode {:key :n}
+             :m-mode {:key :m}
+             ;
+             :comma-mode {:key :comma}
+             :period-mode {:key :period}
+             :slash-mode {:key :slash}
+             ;
+             :right_shift-mode {:key :right_shift}
+             ;--
+             :fn-mode {:key :fn}
+             ;
+             :left_control-mode {:key :left_control}
+             :left_option-mode {:key :left_option}
+             :left_command-mode {:key :left_command}	
+             ;
+             :spacebar-mode {:key :spacebar}
+             ;
+             :right_command-mode {:key :right_command}
+             :right_option-mode {:key :right_option}
+             ;
+             :left_arrow-mode {:key :left_arrow}
+             :right_arrow-mode {:key :right_arrow}
+             :up_arrow-mode {:key :up_arrow}
+             :down_arrow-mode {:key :down_arrow}
+
+             ;--
+             ;touchpad
+             ;--
+             ;:ps-caps_lock-s-mode {:key :d :condi [:Photoshop :caps_lock-mode]}
+             ;complex
+             :left_gui-mode {:key :left_command :condi :#caps_lock} ; test
+             }
+
+ :main [
+
+;Instructions ----------------------------------------------------------------------------------------------------------------- Instructions
+
+    ;;{:des "..."                               ;; -> description
+    ;; :rules[
+    ;;          [<from>  <to>  <conditions>]    ;; -> rule 1
+    ;;          [<from>  <to>  <conditions>]    ;; -> rule 2
+    ;; ]}
+
+    ;; rule [:period ["period-mode" 1] nil {:afterup ["period-mode" 0] :alone :period}]
+    ;;       |_____| |_______________| |_| |_________________________________________|
+    ;;        <from>    <to>      <conditions>         <other options>
+    ;;
+    ;; karabiner docs: ;; https://pqrs.org/osx/karabiner/json.html#complex_modifications-manipulator-definition
+    ;; <other options> includs ~to_if_alone~, ~to_if_held_down~,~to_after_key_up~, ~to_delayed_action~ and ~parameters~.
+    ;;
+
+    ;; (custom variables) & modifiers -> Advanced
+    ;; https://github.com/yqrashawn/GokuRakuJoudo/blob/master/examples.org#custom-variable
+
+;Example ----------------------------------------------------------------------------------------------------------------------- Example
+    				; example 1 - custom variable
+        #_{:des   "alfred"
+         :rules [;; set f16 as the trigger key of alfred
+                 ;; press h + l will trigger alfred and set "in-alfred" to 1
+                 [[:h :j] [:f16 ["in-alfred" 1]]]
+
+                 :in-alfred ;; when "in-alfred" is 1
+
+                 ;; press enter will select one alfred result and set "in-alfred" to 0
+                 [:##return_or_enter [:return_or_enter ["in-alfred" 0]]]
+
+                 ;; press esc will exit alfred and set "in-alfred" to 0
+                 [:##escape [:escape ["in-alfred" 0]]]
+
+                 ;; press ctrl + j will invoke down_arrow
+                 [:!Tj :down_arrow]
+
+                 ;; press ctrl + k will invoke up_arrow
+                 [:!Tk :up_arrow]
+
+                 ;; press ctrl + l will invoke return_or_enter and set "in-alfred" to 0
+                 [:!Tl [:return_or_enter ["in-alfred 0"]]]]}
+
+;APPs -------------------------------------------------------------------------------------------------------------------------- Apps
+        {:des "photoshop mode 有冲突w与trackpad" 
+        :rules [:Photoshop
+        									[:w nil nil {:alone :w :held {:key :!Sw :repeat false :halt true} :params {:alone 100 :held 100}}]
+        									[:t nil nil {:alone :t :held {:key :!St :repeat false :halt true} :params {:alone 100 :held 100}}]
+        									;
+        									[:u nil nil {:alone :u :held {:key :!Su :repeat false :halt true} :params {:alone 100 :held 100}}]
+        									[:o nil nil {:alone :o :held {:key :!So :repeat false :halt true} :params {:alone 100 :held 100}}]
+        									[:p nil nil {:alone :p :held {:key :!Sp :repeat false :halt true} :params {:alone 100 :held 100}}]
+        									;---
+        									[:a nil nil {:alone :a :held {:key :!Sa :repeat false :halt true} :params {:alone 100 :held 100}}]
+        									;
+        									[:j nil nil {:alone :j :held {:key :!Sj :repeat false :halt true} :params {:alone 100 :held 100}}]
+        									;
+        									[:l nil nil {:alone :l :held {:key :!Sl :repeat false :halt true} :params {:alone 100 :held 100}}]
+        									;---
+        									[:b nil nil {:alone :b :held {:key :!Sb :repeat false :halt true} :params {:alone 100 :held 100}}]
+        									[:c nil nil {:alone :c :held {:key :!Sc :repeat false :halt true} :params {:alone 100 :held 100}}]
+        									[:v nil nil {:alone :v :held {:key :!Sv :repeat false :halt true} :params {:alone 100 :held 100}}]
+        									;
+        									[:m nil nil {:alone :m :held {:key :!Sm :repeat false :halt true} :params {:alone 100 :held 100}}]
+        									[:n nil nil {:alone :n :held {:key :!Sn :repeat false :halt true} :params {:alone 100 :held 100}}]
+																]}
+
+
+;ESC -------------------------------------------------------------------------------------------------------------------------- ESC
+        ; using Karabiner for triggering goku
+        #_{:des "goku trigger"
+         :rules [
+                 [:!CSf12 "/usr/local/bin/code ~/.config/karabiner/karabiner.edn"];
+                 [:f20 "/usr/local/bin/goku ~/.config/karabiner/karabiner.edn | /usr/local/bin/terminal-notifier -message Done! -title GOKU -group GOKU -ignoreDnD"];
+                ]}
+        ;------------------------------------------------------------------------------------------------------- tilkey
+        {:des "grave_accent_and_tildekey (actions + language switches)"
+         :rules [:grave_accent_and_tilde-mode
+                 [:w [:alfred "toggle wifi" "nikivi.wifi.tools"]]
+                 [:e :!CTk] ; Turn on/off BTT TouchBar
+                 [:r [:alfred "restart wifi" "nikivi.wifi.tools"]]
+                 [:d [:km "Commit dotfiles"]]
+                 [:f [:km "Commit home"]]
+                 ;[:f [:km "Commit learning"]]
+                 ;[:j [[:km "JS Dash profile"] ["in-python" 0] ["in-go" 0] ["in-js" 1] ["in-elixir" 0] ["in-rust" 0] ["in-swift" 0]]] ; JS
+                 [:j [[:open "dash://.js:"] ["in-python" 0] ["in-go" 0] ["in-js" 1] ["in-elixir" 0] ["in-rust" 0] ["in-swift" 0]]] ; JS
+                 ;[:j [[:open "dash://.jsts:"] ["in-python" 0] ["in-go" 0] ["in-js" 1] ["in-elixir" 0] ["in-rust" 0] ["in-swift" 0]]] ; JS
+                 [:k [[:open "dash://.go:"] ["in-python" 0] ["in-go" 1] ["in-js" 0] ["in-elixir" 0] ["in-rust" 0] ["in-swift" 0]]] ; Go
+                 [:l [[:open "dash://.python:"] ["in-python" 1] ["in-go" 0] ["in-js" 0] ["in-elixir" 0] ["in-rust" 0] ["in-swift" 0]]] ; Python
+                 [:c [:km "Commit code"]]
+                 [:v [:km "Commit wiki"]]
+                 ;[:n [[:open "dash://.rust:"] ["in-python" 0] ["in-go" 0] ["in-js" 0] ["in-elixir" 0] ["in-rust" 1] ["in-swift" 0]]] ; Rust
+                 ;[:n :!STh] ; Record macro
+                 ;[:m [[:open "dash://.swift:"] ["in-python" 0] ["in-go" 0] ["in-js" 0] ["in-elixir" 0] ["in-rust" 0] ["in-swift" 1]]] ; Swift
+                 [:spacebar :!COSn]
+                ]} ; Selection -> GitHub
+
+        ;------------------------------------------------------------------------------------------------------- 1
+        {:des "1key (undefined)"
+         :rules [:1-mode
+                 ;------------------------------------------------------------------------------- esc
+                 ;
+                 ;---
+                 ;------------------------------------------------------------------------------- ~
+                 ;
+                 ;---
+                 ;
+                 ;
+                 ;------------------------------------------------------------------------------- tab
+                 ;
+                 ;---
+                 ;
+                 ;
+                 ;------------------------------------------------------------------------------- caps_lock
+                 ;
+
+                 ;---
+                 ;
+                 ;
+                 ;------------------------------------------------------------------------------- shift
+                 ;
+                 ;---
+                 ;
+                 ;
+                 ;------------------------------------------------------------------------------- spacebar
+                 ;
+                 ;---
+                 ;---
+                 ;------------------------------------------------------------------------------- ◄▲▼►
+                ]}
+        ;------------------------------------------------------------------------------------------------------- 2
+        {:des "2key (move + alfred)"
+         :rules [:2-mode
+                 [:o [:alfred "soulver" "app.soulver.alfredworkflow"]]
+                 [:j :!Cdown_arrow]
+                 [:k :!Cup_arrow]
+                 [:l :!Cright_arrow]
+                 [:h :!Cleft_arrow]
+                 [:semicolon :!Oup_arrow]
+                 [:quote :!Odown_arrow]
+                 [:spacebar :!COSu]
+                ]}
+
+        ;------------------------------------------------------------------------------------------------------- 3
+        {:des "3key (open files + projects)"
+         :rules [:3-mode
+                 [:r [:km "proj: LA"]]
+                 [:i [:km "edit: Likes"]]
+                 [:o [:km "edit: Projects"]]
+                 [:t [:km "edit: Git config"]]
+                 [:h [:km "wiki: Used hotkeys"]]
+                 [:j [:km "edit: Aliases"]]
+                 [:k [:km "edit: Zsh functions"]]
+                 [:l [:km "Search current safari url in wiki"]]
+                 [:semicolon [:km "proj: Knowledge"]]
+                 [:quote [:km "wiki: Summary"]]
+                 [:n [:km "proj: Dotfiles"]]
+                 [:m [:km "proj: Home"]]
+                 [:comma [:km "edit: Now"]]
+                 [:period [:km "edit: GitHub Bio"]] ; TODO: 
+                 [:spacebar :!CSOp]
+                ]}
+        ;------------------------------------------------------------------------------------------------------- 4
+        {:des "4key (open curated lists)"
+         :rules [:4-mode
+                 [:r [:km "edit: Web Searches"]]
+                 [:t [:km "list: Newsletters"]]
+                 [:o [:km "list: Blogs"]]
+                 [:p [:km "list: Podcasts"]]
+                 [:k [:km "list: Alfred workflows"]]
+                 [:l [:km "list: Command line tools"]]
+                 [:n [:km "list: Events"]]
+                ]}
+
+;Tab --------------------------------------------------------------------------------------------------------------------------- Tab
+        ;------------------------------------------------------------------------------------------------------- Tab
+
+        #_{:des   "totalspace 2"
+         :rules [
+                 ;; move windows
+                 :yabai-move-mode
+                 [:i :!STOleft_arrow]
+                 [:o :!STOright_arrow]
+                 :tab-mode
+                 ;; focus mode
+                 [:i :!OSleft_arrow]
+                 [:o :!OSright_arrow]]}
+
+        ;------------------------------------------------------------------------------------------------------- Tab
+        {:des "tabkey (yabai)"
+         :rules [:tab-mode
+         								[:u "/usr/local/bin/yabai -m space --focus 1"]
+         								[:i "/usr/local/bin/yabai -m space --focus 2"]
+         								[:o "/usr/local/bin/yabai -m space --focus 3"]
+         								[:j "/usr/local/bin/yabai -m space --focus 4"]
+                 [:k ["/usr/local/bin/yabai -m space --focus recent" ["tab,,k" 0]] ["tab,,k" 1]] ; 
+                 [:k ["tab,,k" 1] ["tab,,k" 0] {:delayed {:invoked ["/usr/local/bin/yabai -m space --focus 5" ["tab,,k" 0]] :canceled ["tab,,k" 0]} ; 
+                                :params {:delay 119}}]         								
+         								[:l "/usr/local/bin/yabai -m space --focus 6"]
+         								[:m "/usr/local/bin/yabai -m space --focus 7"]
+         								[:comma "/usr/local/bin/yabai -m space --focus 8"]
+         								[:period "/usr/local/bin/yabai -m space --focus 9"]
+
+         								[:h "/usr/local/bin/yabai -m space --focus prev || yabai -m space --focus last"]
+         								[:semicolon "/usr/local/bin/yabai -m space --focus next || yabai -m space --focus first"]
+
+         								]
+         							}
+
+
+        ;------------------------------------------------------------------------------------------------------- Q
+        #_{:des "qkey (cmd + shift)"
+         :rules [:q-mode
+                 [:3 :!CS3]
+                 [:4 :!CS4]
+                 [:5 :!CS5]
+                 [:6 :!CS6]
+                 [:7 :!CS7]
+                 [:8 :!CS8]
+                 [:9 :!CS9]
+                 [:0 :!CS0]
+                 [:w :!CSw]
+                 [:e :!CSe]
+                 [:r :!CSr]
+                 [:t :!CSt]
+                 [:y :!CSy]
+                 [:u :!CSu]
+                 [:i :!CSi]
+                 [:o :!CSo]
+                 [:p :!CSp]
+                 [:open_bracket :!CSopen_bracket]
+                 [:close_bracket :!CSclose_bracket]
+                 [:a :!CSa]
+                 [:s :!CSs]
+                 [:d :!CSd]
+                 [:f :!CSf]
+                 [:g :!CSg]
+                 [:h :!CSh]
+                 [:j :!CSj]
+                 [:k :!CSk]
+                 [:l :!CSl]
+                 [:semicolon :!CSsemicolon]
+                 [:quote :!CSquote]
+                 [:z :!CSz]
+                 [:x :!CSx]
+                 [:c :!CSc]
+                 [:v :!CSv]
+                 [:b :!CSb]
+                 [:n :!CSn]
+                 [:m :!CSm]
+                 [:comma :!CScomma]
+                 [:period :!CSperiod]
+                 [:slash :!CSslash]
+                 [:spacebar :!CSOe]
+                ]}
+
+        ;------------------------------------------------------------------------------------------------------- W
+        {:des "wkey (palettes + websites)"
+         :rules [:w-mode
+                 [:0 [:km "w: regex101"]]
+                 [:q [:km "w: Quora"]]
+                 [:r [:km "w: Reddit"]]
+                 ; [:t [:km "w: Twitter"]]
+                 [:t [[:km "w: Twitch"] ["w,,t" 0]] ["w,,t" 1]] ; 
+                 [:t ["w,,t" 1] ["w,,t" 0] {:delayed {:invoked [[:km "w: Twitter"] ["w,,t" 0]] :canceled ["w,,t" 0]} ; 
+                                :params {:delay 119}}]                 
+                 [:y [:km "w: YouTube"]]
+                 [:u [:km "w: Medium"]]
+                 [:i [:km "w: Instagram"]]
+                 [:o [:km "w: Stack Overflow"]]
+                 [:p [:km "w: Dropbox"]]
+                 [:a [:km "w: Amazon"]]
+                 [:f [:km "w: Facebook"]]
+                 ; [:g [:km "w: Google"]]
+                 [:g [[:km "w: Google Adavanced"] ["w,,g" 0]] ["w,,g" 1]] ; 
+                 [:g ["w,,g" 1] ["w,,g" 0] {:delayed {:invoked [[:km "w: Google"] ["w,,g" 0]] :canceled ["w,,g" 0]} ; 
+                                :params {:delay 119}}]                 
+                 [:h [:km "w: GitHub"]]
+                 [:j :!COSo] ; Safari URL -> Twitter
+                 ;[:j :!COSo] ; Safari URL -> Google
+                 [:k [:km "w: KM forum"]]
+                 ;[:l :!COSo] ; Safari URL -> Lobsters
+                 [:semicolon [:km "w: Netlify"]]
+                 [:z [:km "w: 知乎"]]
+                 [:b [:km "w: Observable"]]
+                 [:m [:km "w: Mac Torrents"]]
+                 [:n [:km "w: Netflix"]]
+
+                 [:comma [:km "w: Google Drive"]]
+                 [:period [:km "w: IFTTT"]]
+                 [:spacebar :!COSr]]} ; Selection -> Google Translate
+
+        ;------------------------------------------------------------------------------------------------------- E
+        {:des "ekey (cmd)"
+         :rules [:e-mode
+                 ;------------------------------------------------------------------------------- esc
+                 [:escape :!Cescape]
+                 ;
+                 [:f1 :!Cf1]
+                 [:f2 :!Cf2]
+                 [:f3 :!Cf3]
+                 [:f4 :!Cf4]
+                 [:f5 :!Cf5]
+                 ;---
+                 [:f6 :!Cf6]
+                 [:f7 :!Cf7]
+                 [:f8 :!Cf8]
+                 [:f9 :!Cf9]
+                 [:f10 :!Cf10]
+                 [:f11 :!Cf11]
+                 [:f12 :!Cf12]
+                 ;------------------------------------------------------------------------------- ~
+                 [:grave_accent_and_tilde :!Cgrave_accent_and_tilde]
+                 ;
+                 [:1 :!C1]
+                 [:2 :!C2]
+                 [:3 :!C3]
+                 [:4 :!C4]
+                 [:5 :!C5]
+                 ;---
+                 [:6 :!C6]
+                 [:7 :!C7]
+                 [:8 :!C8]
+                 [:9 :!C9]
+                 [:0 :!C0]
+                 ;
+                 [:hyphen :!Chyphen]
+                 [:equal_sign :!Cequal_sign]
+                 ;
+                 [:delete_or_backspace :!Cdelete_or_backspace]
+                 ;------------------------------------------------------------------------------- tab
+                 [:tab :!Ctab]
+                 ;
+                 [:q :!Cq]
+                 [:w :!Cw]
+                 ;[:e :!Ce]
+                 [:r :!Cr]
+                 [:t :!Ct]
+                 ;---
+                 [:y :!Cy]
+                 [:u :!Cu]
+                 [:i :!Ci]
+                 [:o :!Co]
+                 [:p :!Cp]
+                 ;
+                 [:open_bracket :!Copen_bracket]
+                 [:close_bracket :!Cclose_bracket]
+                 ;
+                 [:backslash :!Cbackslash]
+                 ;------------------------------------------------------------------------------- caps
+                 [:caps_lock :!Ccaps_lock]
+                 ;
+                 ;[:a :!Ca]
+                 [:s :!Cs]
+                 [:d :!Cd]
+                 [:f :!Cf]
+                 [:g :!Cg]
+                 ;---
+                 [:h :!Ch]
+                 [:j :!Cj]
+                 [:k :!Ck]
+                 [:l :!Cl]
+                 [:semicolon :!Csemicolon]
+                 [:quote :!Cquote]
+                 ;
+                 [:return_or_enter :!Creturn_or_enter]
+                 ;------------------------------------------------------------------------------- shift
+                 [:left_shift :!Cf13]
+                 ;
+                 [:z :!Cz]
+                 [:x :!Cx]
+                 [:c :!Cc]
+                 [:v :!Cv]
+                 [:b :!Cb]
+                 ;---
+                 [:n :!Cn]
+                 [:m :!Cm]
+                 ;
+                 [:comma :!Ccomma]
+                 [:period :!Cperiod]
+                 [:slash :!Cslash]
+                 ;
+                 [:right_shift :!Cf20]
+                 ;------------------------------------------------------------------------------- spc
+                 [:fn :!Cf14]
+                 ;
+                 [:left_control :!Cf15]
+                 [:left_option :!Cf16]
+                 [:left_command :!Cf17]
+                 ;---
+                 [:spacebar :!Cspacebar]
+                 ;---
+                 [:right_command :!Cf18]
+                 [:right_option :!Cf19]
+                 ;------------------------------------------------------------------------------- ◄▲▼►
+                 [:left_arrow :!Cleft_arrow]
+                 [:right_arrow :!Cright_arrow]
+                 [:up_arrow :!Cup_arrow]
+                 [:down_arrow :!Cdown_arrow]
+                ]}
+
+        {:des "rkey (progRamming)"
+         :rules [:r-mode
+                 ;[:tab [:km "open: Transmission"]]
+                 [:q [:km "open: IINA"]]
+                 [:w [:km "open: 1Password"]]
+                 [:e [[:km "open: Emacs --debug-int"] ["r,,e" 0]] ["r,,e" 1]]
+                 [:e ["r,,e" 1] ["r,,e" 0] {:delayed {:invoked [[:km "open: Emacs"] ["r,,e" 0]] :canceled ["r,,e" 0]}
+                                        :params {:delay 119}}]
+                 [:i [:km "open: Flume"]]
+                 [:o [:km "open: Developer"]]
+                 ;[:caps_lock [:km "open: Preview"]]
+                 [:a [:km "open: Alfred Preferences"]]
+                 [:j [:km "open: Dictionary"]]
+                 [:k [:km "Edit keyboard shortcuts"]]
+                 [:n [:km "open: ScreenFlow"]]
+                 [:s [[:km "open: Sublime Merge"] ["r,,s" 0]] ["r,,s" 1]]
+                 [:s ["r,,s" 1] ["r,,s" 0] {:delayed {:invoked [[:km "open: Sublime Text"] ["r,,s" 0]] :canceled ["r,,s" 0]}
+                                        :params {:delay 119}}]
+                 [:comma [:km "open: Arq"]]
+                 [:period [:km "open: Final Cut Pro"]]
+                 [:spacebar :!COSx]]} ; Selection -> Reddit
+
+        {:des "tkey (terminal-scripts)"
+         :rules [:t-mode
+                 [:w [:km "Terminal - WeChatExtension-ForMac"]]
+                 [:e [:km "open: Keynote"]]
+                 [:y [:km "Terminal - kickstart yabai"]]
+                 [:i [:km "open: Flume"]]
+                 [:o [:km "open: Developer"]]
+                 ;[:caps_lock [:km "open: Preview"]]
+                 [:a [:km "open: Alfred Preferences"]]
+                 [:g [:km "Terminal - goku"]]
+                 [:j [:km "open: Dictionary"]]
+                 ;[:k [:km "open: Preview"]]
+                 ;[:l [:km "open: Books"]]
+                 ;[:k [:km "open: PDF Expert"]]
+                 ;[:l [:km "open: Reeder"]]
+                 [:n [:km "open: ScreenFlow"]]
+                 [:m [:km "Terminal - mackup backup"]]
+                 [:comma [:km "open: Arq"]]
+                 [:period [:km "open: Final Cut Pro"]]
+                 [:spacebar :!COSx]]} ; Selection -> Reddit
+
+        {:des "ikey (symbols)"
+         :rules [:i-mode
+                 [:grave_accent_and_tilde :!Sgrave_accent_and_tilde] ; -> //
+                 [:1 :!S1] ;!
+                 [:2 :!S2] ;@
+                 [:3 :!Sequal_sign] ;+
+                 [:4 :!S8] ;*
+                 [:5 :!S5] ;%wg
+                 ;
+                 [:q :!Sopen_bracket] ;{
+                 [:w :!S9] ;(
+                 [:e :!S3] ;#
+                 [:r :!Squote] ;"
+                 [:t :quote] ;'
+                 [:o :open_bracket] ; [
+                 [:p :close_bracket] ; ]
+                 [:open_bracket :!Sclose_bracket] ; }
+                 [:caps_lock [:km "Match symbols"]]
+                 ;
+                 [:a :slash]
+                 [:s :!Shyphen]
+                 [:d :backslash]
+                 [:f :hyphen]
+                 [:g :!S4]
+                 [:j :equal_sign]
+                 [:l [:hyphen :!Speriod :spacebar]] ; -> arrow (->)
+                 [:semicolon :semicolon]
+                 ;
+                 [:z :!Sslash]
+                 [:x :!Sbackslash]
+                 [:c :!S7]
+                 [:v :!Scomma]
+                 [:b [:slash :slash :spacebar]] ; -> //
+                ]}
+        ;------------------------------------------------------------------------------------------------------- O
+        {:des "okey (open)"
+         :rules [:o-mode
+                 [:e [:km "open: PDF Expert"]]
+                 [:r [:km "open: Reeder"]]
+                 [:t [:km "open: Terminal"]]
+                 [:i [:km "open: iTerm"]]
+                 [:p [:km "open: Photos"]]
+                 ;
+                 [:caps_lock [:km "open: Finder"]]
+                 [:a [:km "open: Alfred Preferences"]]
+                 [:s [:km "open: Safari"]]
+                 [:d [:km "open: Dictionary"]]
+                 [:f [:km "Finder - 归位"]]
+                 [:g [:km "open: Chrome"]]
+                 ;---
+                 ;[:h [:km "open: Safari Technology Preview"]]
+                 [:j [:km "open: iTerm"]]
+                 [:k [:km "open: Chrome"]] ;Khrome
+                 [:l [:km "open: VS Code"]]
+                 [:semicolon [:km "open: Xcode"]]
+                 [:quote [:km "open: Console"]]
+                 [:c [:km "open: Spotify"]]
+                 [:v [:km "open: Wechat"]]
+                 [:b [:km "open: BetterTouchTool"]]
+                 ;[:n [:km "open: NetNewsWire"]]
+                 [:n [:km "open: Reeder"]]
+                 [:m [:km "open: Mail"]]
+                 [:comma [:km "open: Proxyman"]]
+                 [:spacebar :!CT7] ; Start Google search with selection
+                ]}
+        ;------------------------------------------------------------------------------------------------------- O
+        {:des "pkey (photo)"
+         :rules [:p-mode
+                 [:tab [:km "open: Photos"]]
+                 [:i [:km "open: Pixelmator Pro"]]
+                 [:o [:km "open: Photos"]]
+                 ;
+                 [:caps_lock [:km "open: Adobe Photoshop"]]
+                 [:s [:km "open: Adobe Photoshop"]]
+                 ;---
+                 [:h [:km "open: Adobe Photoshop"]]
+                 [:b [:km "open: Photo Booth"]]
+                ]}
+
+;Caps_lock -------------------------------------------------------------------------------------------------------------------- Caps_lock
+        ;------------------------------------------------------------------------------------------------------- Caps_lock
+        {:des "yabai mode - caps_lockkey"
+         :rules [:caps_lock-mode
+                 [:grave_accent_and_tilde [[:km "yabai - set yabai_var to kmvar"] ["caps,,lock_grave_accent_and_tilde" 0]] ["caps,,lock_grave_accent_and_tilde" 1]] ; 
+                 [:grave_accent_and_tilde ["caps,,lock_grave_accent_and_tilde" 1] ["caps,,lock_grave_accent_and_tilde" 0] {:delayed {:invoked ["launchctl kickstart -k \"gui/${UID}/homebrew.mxcl.yabai\"" ["caps,,lock_grave_accent_and_tilde" 0]] :canceled ["caps,,lock_grave_accent_and_tilde" 0]} ; 
+                                :params {:delay 119}}]
+
+                 ;; rotate: 270 && 90
+                 [:r ["/usr/local/bin/yabai -m space --rotate 90" ["caps_lock,,r" 0]] ["caps_lock,,r" 1]] ; 
+                 [:r ["caps_lock,,r" 1] ["caps_lock,,r" 0] {:delayed {:invoked ["/usr/local/bin/yabai -m space --rotate 270" ["caps_lock,,r" 0]] :canceled ["caps_lock,,r" 0]} ; 
+                                :params {:delay 119}}]                 
+
+                 ;; toggle: float on top 似乎无效
+                 [:t ["/usr/local/bin/yabai -m config window_topmost on" ["caps_lock,,t" 0]] ["caps_lock,,t" 1]] ; 
+                 [:t ["caps_lock,,t" 1] ["caps_lock,,t" 0] {:delayed {:invoked ["/usr/local/bin/yabai -m config window_topmost off" ["caps_lock,,t" 0]] :canceled ["caps_lock,,t" 0]} ; 
+                                :params {:delay 119}}]                 
+
+ 	               ;; gap && padding: +/- 10
+                 [:g ["/usr/local/bin/yabai -m space --gap rel:-10 && /usr/local/bin/yabai -m space --padding rel:-10:-10:-10:-10" ["caps_lock,,g" 0]] ["caps_lock,,g" 1]] ; 
+                 [:g ["caps_lock,,g" 1] ["caps_lock,,g" 0] {:delayed {:invoked ["/usr/local/bin/yabai -m space --gap rel:10 && /usr/local/bin/yabai -m space --padding rel:10:10:10:10" ["caps_lock,,g" 0]] :canceled ["caps_lock,,g" 0]} ; 
+                                :params {:delay 119}}] 	               
+
+                 ;; axis flip: y-axis & x-axis
+                 [:x ["/usr/local/bin/yabai -m space --mirror x-axis" ["caps_lock,,x" 0]] ["caps_lock,,x" 1]] ; 
+                 [:x ["caps_lock,,x" 1] ["caps_lock,,x" 0] {:delayed {:invoked ["/usr/local/bin/yabai -m space --mirror y-axis" ["caps_lock,,x" 0]] :canceled ["caps_lock,,x" 0]} ; 
+                                :params {:delay 119}}]
+
+                 ;; warp && swap
+                 [:h ["/usr/local/bin/yabai -m window --swap west" ["caps_lock,,h" 0]] ["caps_lock,,h" 1]] ; 
+                 [:h ["caps_lock,,h" 1] ["caps_lock,,h" 0] {:delayed {:invoked ["/usr/local/bin/yabai -m window --warp west" ["caps_lock,,h" 0]] :canceled ["caps_lock,,h" 0]} ; 
+                                :params {:delay 119}}]
+                 [:j ["/usr/local/bin/yabai -m window --swap south" ["caps_lock,,j" 0]] ["caps_lock,,j" 1]] ; 
+                 [:j ["caps_lock,,j" 1] ["caps_lock,,j" 0] {:delayed {:invoked ["/usr/local/bin/yabai -m window --warp south" ["caps_lock,,j" 0]] :canceled ["caps_lock,,j" 0]} ; 
+                                :params {:delay 119}}]
+                 [:k ["/usr/local/bin/yabai -m window --swap north" ["caps_lock,,k" 0]] ["caps_lock,,k" 1]] ; 
+                 [:k ["caps_lock,,k" 1] ["caps_lock,,k" 0] {:delayed {:invoked ["/usr/local/bin/yabai -m window --warp north" ["caps_lock,,k" 0]] :canceled ["caps_lock,,k" 0]} ; 
+                                :params {:delay 119}}]
+                 [:l ["/usr/local/bin/yabai -m window --swap east" ["caps_lock,,l" 0]] ["caps_lock,,l" 1]] ; 
+                 [:l ["caps_lock,,l" 1] ["caps_lock,,l" 0] {:delayed {:invoked ["/usr/local/bin/yabai -m window --warp east" ["caps_lock,,l" 0]] :canceled ["caps_lock,,l" 0]} ; 
+                                :params {:delay 119}}]
+                 [:semicolon ["/usr/local/bin/yabai -m window --swap recent" ["caps_lock,,semicolon" 0]] ["caps_lock,,semicolon" 1]] ; 
+                 [:semicolon ["caps_lock,,semicolon" 1] ["caps_lock,,semicolon" 0] {:delayed {:invoked ["/usr/local/bin/yabai -m window --warp recent" ["caps_lock,,semicolon" 0]] :canceled ["caps_lock,,semicolon" 0]} ; 
+                                :params {:delay 119}}]                                
+
+                 ;; focus
+                 [:y "/usr/local/bin/yabai -m window --focus west"]
+                 [:u "/usr/local/bin/yabai -m window --focus south"]
+                 [:i "/usr/local/bin/yabai -m window --focus north"]
+                 [:o "/usr/local/bin/yabai -m window --focus east"]
+
+
+                 ;; move windown: relative
+                 [:m "/usr/local/bin/yabai -m window --move rel:-240:0"]
+                 [:comma "/usr/local/bin/yabai -m window --move rel:0:150"]
+                 [:period "/usr/local/bin/yabai -m window --move rel:0:-150"]
+                 [:slash "/usr/local/bin/yabai -m window --move rel:240:0"]
+
+                 ;; focus stacked window: up/down/cycle/rencent
+                 [:p "/usr/local/bin/yabai -m window --focus stack.prev || /usr/local/bin/yabai -m window --focus stack.last"]
+                 [:n "/usr/local/bin/yabai -m window --focus stack.next || /usr/local/bin/yabai -m window --focus stack.first"]
+                 ;[:spacebar "/usr/local/bin/yabai -m window --focus stack.recent"]
+
+                 ;; create stack
+                 [:right_command "/usr/local/bin/yabai -m window --stack prev"]
+                 [:right_option "/usr/local/bin/yabai -m window  --stack next"]
+                 ;; ;; stack mode: Add the active window  to the window or stack to the {direction}
+                 ;; [:left_arrow "/usr/local/bin/yabai -m window west --stack $(yabai -m query --windows --window | jq -r '.id')"]
+                 ;; [:right_arrow "/usr/local/bin/yabai -m window south --stack $(yabai -m query --windows --window | jq -r '.id')"]
+                 ;; [:up_arrow "/usr/local/bin/yabai -m window north --stack $(yabai -m query --windows --window | jq -r '.id')"]
+                 ;; [:down_arrow "/usr/local/bin/yabai -m window east --stack $(yabai -m query --windows --window | jq -r '.id')"]
+
+                 ;; space changing
+                 [:1 "/usr/local/bin/yabai -m space --focus 1"]
+                 [:2 "/usr/local/bin/yabai -m space --focus 2"]
+                 [:3 "/usr/local/bin/yabai -m space --focus 3"]
+                 [:4 "/usr/local/bin/yabai -m space --focus 4"]
+                 [:5 "/usr/local/bin/yabai -m space --focus 5"]
+                 [:6 "/usr/local/bin/yabai -m space --focus 6"]
+                 [:7 "/usr/local/bin/yabai -m space --focus 7"]
+                 [:8 "/usr/local/bin/yabai -m space --focus 8"]
+                 [:9 "/usr/local/bin/yabai -m space --focus 9"]
+                 [:0 "/usr/local/bin/yabai -m space --focus 0"]
+                 [:hyphen "/usr/local/bin/yabai -m space --focus prev || /usr/local/bin/yabai -m space --focus last"]                 
+                 [:equal_sign "/usr/local/bin/yabai -m space --focus next || /usr/local/bin/yabai -m space --focus first"]
+
+                 ;; toggle: focus follows mouse: off/on
+                 [:a [[:km "yabai - focus follows mouse - on"] ["caps_lock,,a" 0]] ["caps_lock,,a" 1]] ; 
+                 [:a ["caps_lock,,a" 1] ["caps_lock,,a" 0] {:delayed {:invoked [[:km "yabai - focus follows mouse - off"] ["caps_lock,,a" 0]] :canceled ["caps_lock,,a" 0]} ; 
+                                :params {:delay 119}}]
+
+                 ;; toggle: split vertically or horizontally 
+                 [:s ["/usr/local/bin/yabai -m window --toggle sticky" ["caps_lock,,s" 0]] ["caps_lock,,s" 1]]
+                 [:s ["caps_lock,,s" 1] ["caps_lock,,s" 0] {:delayed {:invoked ["/usr/local/bin/yabai -m window --toggle split" ["caps_lock,,s" 0]] :canceled ["caps_lock,,s" 0]} ; 
+                                :params {:delay 119}}]                 
+                 ;; toggle: pip && ?               
+                 [:d [[:km "placeholder2"] ["caps_lock,,d" 0]] ["caps_lock,,d" 1]] ; 
+                 [:d ["caps_lock,,d" 1] ["caps_lock,,d" 0] {:delayed {:invoked ["/usr/local/bin/yabai -m window --toggle pip" ["caps_lock,,d" 0]] :canceled ["caps_lock,,d" 0]} ; 
+                                :params {:delay 119}}]                                
+
+                 ;; toggle: folat or sticky
+                 [:f ["/usr/local/bin/yabai -m window --toggle pip" ["caps_lock,,f" 0]] ["caps_lock,,f" 1]] ; 
+                 [:f ["caps_lock,,f" 1] ["caps_lock,,f" 0] {:delayed {:invoked ["/usr/local/bin/yabai -m window --toggle float" ["caps_lock,,f" 0]] :canceled ["caps_lock,,f" 0]} ; 
+                                :params {:delay 119}}]             
+
+                 ;; toggle: fullscreen: zoom-fullscreen && zoom-parent
+                 [:z ["/usr/local/bin/yabai -m window --toggle zoom-fullscreen" ["caps_lock,,z" 0]] ["caps_lock,,z" 1]] ; 
+                 [:z ["caps_lock,,s" 1] ["caps_lock,,z" 0] {:delayed {:invoked ["/usr/local/bin/yabai -m window --toggle zoom-parent" ["caps_lock,,z" 0]] :canceled ["caps_lock,,s" 0]} ; 
+                                :params {:delay 119}}]
+                 ;; toggle: balance && border
+                 [:b ["/usr/local/bin/yabai -m space --balance" ["caps_lock,,b" 0]] ["caps_lock,,b" 1]] ; 
+                 [:b ["caps_lock,,b" 1] ["caps_lock,,b" 0] {:delayed {:invoked ["/usr/local/bin/yabai -m window --toggle border" ["caps_lock,,b" 0]] :canceled ["caps_lock,,b" 0]} ; 
+                                :params {:delay 119}}]                 
+                 [:open_bracket "/usr/local/bin/yabai -m window --space prev"]
+                 [:close_bracket "/usr/local/bin/yabai -m window --space next"]]
+                }
+
+
+        #_{:des "akey (alfred)"
+         :rules [:a-mode
+                 [:grave_accent_and_tilde [:alfred "search processes" "com.vitorgalvao.alfred.processcontrol"]]
+                 [:1 :!C1]
+                 [:2 :!C2]
+                 [:3 :!C3]
+                 [:4 :!C4]
+                 [:5 :!C5]
+                 [:6 :!C6]
+                 ;
+                 [:q [:alfred "search downloads" "recentdownloads.ddjfreedom"]]
+                 [:w :!CObackslash] ; 1Password search
+                 [:e [:km "Make 2Do task"]]
+                 [:r [:km "Make 2Do task with note as current URL"]]
+                 [:t [:km "Make 2Do task with Safari title as name + note as current URL"]]
+                 [:i [:alfred "search alfred" "nikivi.utilities" "?"]]
+                 ;
+                 [:caps_lock [:alfred "search desktop" "com.vitorgalvao.alfred.directories"]]
+                 ;[:a [:alfred "search files" "nikivi.manage.notes"]] ; TODO: add blog, drafts
+                 [:s [:alfred "search code" "nikivi.manage.notes"]]
+                 [:d [:alfred "search repos" "net.deanishe.alfred-git-repos"]]
+                 [:f [:alfred "search folders" "nikivi.search.folders"]]z
+                 [:g :!COS9] ; Raycast
+                 ;[:g [:km "2Do with current url as note (github)"]]
+                 [:j [:alfred "run" "iansinnott.keyboardmaestro"]]
+                 ;[:k [:alfred "search menu bar" "com.tedwise.menubarsearch"]]
+                 [:k [:alfred "killProcess" "com.ngreenstein.alfred-process-killer"]]
+                 ;
+                 [:x [:alfred "search workflows" "org.jeef.workflowdirectory"]]
+                 [:c [:alfred "search emoji" "com.github.jsumners.alfred-emoji"]]
+                 [:v [:alfred "search clones" "com.vitorgalvao.alfred.directories"]]
+                 [:b [:km "Add 2Do with current url as note (github)"]]
+                 [:n [:alfred "search lists" "nikivi.learn.anything"]]
+                 [:m [:alfred "search lists" "nikivi.awesome.lists"]]
+                 ;
+                 [:spacebar [:alfred "search PDFs" "nikivi.search.files"]]
+                ]}
+
+        {:des "akey (ctrl)"
+         :rules [:a-mode
+                 ;;------------------------------------------------------------------------------------------------------ESC
+                 [:escape :!Tescape]
+                 ;
+                 [:f1 :!Tf1]
+                 [:f2 :!Tf2]
+                 [:f3 :!Tf3]
+                 [:f4 :!Tf4]
+                 [:f5 :!Tf5]
+                 ;--
+                 [:f6 :!Tf6]
+                 [:f7 :!Tf7]
+                 [:f8 :!Tf8]
+                 [:f9 :!Tf9]
+                 [:f10 :!Tf10]
+                 [:f11 :!Tf11]
+                 [:f12 :!Tf12]
+                 ;;------------------------------------------------------------------------------------------------------111
+                 [:grave_accent_and_tilde :!Tgrave_accent_and_tilde]
+                 ;
+                 [:1 :!T1]
+                 [:2 :!T2]
+                 [:3 :!T3]
+                 [:4 :!T4]
+                 [:5 :!T5]
+                 ;---
+                 [:6 :!T6]
+                 [:7 :!T7]
+                 [:8 :!T8]
+                 [:9 :!T9]
+                 [:0 :!T0]
+                 ;
+                 [:hyphen :!Thyphen]
+                 [:equal_sign :!Tequal_sign]
+                 ;
+                 [:delete_or_backspace :!Tdelete_or_backspace]
+                 ;;------------------------------------------------------------------------------------------------------QQQ
+                 [:tab :!Ttab]
+                 ;
+                 [:q :!Tq]
+                 [:w :!Tw]
+                 [:e :!Te]
+                 [:r :!Tr]
+                 [:t :!Tt]
+                 ;---
+                 [:y :!Ty]
+                 [:u :!Tu]
+                 [:i :!Ti]
+                 [:o :!To]
+                 [:p :!Tp]
+                 ;
+                 [:open_bracket :!Topen_bracket]
+                 [:close_bracket :!Tclose_bracket]
+                 ;
+                 [:backslash :!Tbackslash]
+                 ;;------------------------------------------------------------------------------------------------------AAA
+                 [:caps_lock :!Tcaps_lock]
+                 ;
+                 ;[:a :!Ta]
+                 [:s :!Ts]
+                 [:d :!Td]
+                 [:f :!Tf]
+                 [:g :!Tg]
+                 ;---
+                 [:h :!Th]
+                 [:j :!Tj]
+                 [:k :!Tk]
+                 [:l :!Tl]
+                 [:semicolon :!Tsemicolon]
+                 [:quote :!Tquote]
+                 ;
+                 [:return_or_enter :!Treturn_or_enter]
+                 ;;------------------------------------------------------------------------------------------------------ZZZ
+                 [:left_shift :!Tf13]
+                 ;
+                 [:z :!Tz]
+                 [:x :!Tx]
+                 [:c :!Tc]
+                 [:v :!Tv]
+                 [:b :!Tb]
+                 ;---
+                 [:n :!Tn]
+                 [:m :!Tm]
+                 ;
+                 [:comma :!Tcomma]
+                 [:period :!Tperiod]
+                 [:slash :!Tslash]
+                 ;
+                 [:right_shift :!Tf20]
+                 ;;------------------------------------------------------------------------------------------------------SPC
+                 [:fn :!Tf14]
+                 ;
+                 [:left_control :!Tf15]
+                 [:left_option :!Tf16]
+                 [:left_command :!Tf17]
+                 ;---
+                 [:spacebar :!Tspacebar]
+                 ;---
+                 [:right_command :!Tf18]
+                 [:right_option :!Tf19]
+                 ;;------------------------------------------------------------------------------------------------------◄▲▼►
+                 [:left_arrow :!Tleft_arrow]
+                 [:right_arrow :!Tright_arrow]
+                 [:up_arrow :!Tup_arrow]
+                 [:down_arrow :!Tdown_arrow]
+                ]}
+
+        {:des "skey (essential)"
+         :rules [:s-mode
+                 [:w [:!Oleft_arrow :!OSright_arrow]] ; Highlight word
+                 [:e :tab]
+                 [:r :!Stab]
+                 [:t :!Sreturn_or_enter]
+                 [:u :!COp] ; Selection -> HasteBin link
+                 ;[:i :!CTperiod] ; Contexts search active windows
+                 [:o :!Cx] ; Cut
+                 ;[:open_bracket :!Oleft_arrow]
+                 [:open_bracket [:km "Lowercase selected text"]]
+                 [:close_bracket [:km "Uppercase selected text"]]
+                 [:a :!Cc] ; Copy
+                 [:d :delete_or_backspace]
+                 [:f :return_or_enter]
+                 [:g :!Ctab]
+                 [:##h :left_arrow]
+                 [:##j :down_arrow]
+                 [:##k :up_arrow]
+                 [:##l :right_arrow]
+                 [:semicolon :!CTO0] ; Search Alfred Snippets
+                 [:quote [:!Cleft_arrow :!CSright_arrow]] ; Highlight current line
+                 [:c :!Cdelete_or_backspace]
+                 [:v :left_shift]
+                 [:##b :!Cleft_arrow]
+                 [:n :!Cv] ; Paste
+                 [:##m :!Cright_arrow]
+                 [:period :!COS0]]} ; Selection -> Alfred Snippets TODO: 
+        {:des "dkey (mouse)"
+         :rules [:d-mode
+                 [:i :!Chyphen] ; Zoom out
+                 [:o :!Cequal_sign] ; Zoom in
+                 [:a [:!Cc :!Ctab]] ; Copy & activate previous app
+                 [:j {:mkey {:vwheel 60}}] ; Scroll down
+                 [:k {:mkey {:vwheel -60}}] ; Scroll up
+                 [:l [:km "Google clipboard"]]
+                 ;[:l [:km "Google selected word"]]
+                 [:semicolon [:km "Google Searchio selected word"]]
+                 [:quote [:km "Select line and google"]]
+                 [:z {:pkey :button2}] ; Right click
+                 [:v {:pkey :button1}] ; Left click
+                 [:b {:pkey :button3}] ; Middle click
+                 [:n [:km "Open URL in clipboard in Safari"]]
+                 [:m [:km "Google Lucky selected word"]]
+                 [:comma :!TO8] ; Show Launchpad
+                 [:period :!CTO3] ; Mission control
+                 [:spacebar :!CT8]]} ; Selection -> Dictionary (wiki)
+        {:des "fkey (essential)"
+         :rules [:f-mode
+                 [:1 [:km "View Sip"]]
+                 [:2 [:km "Go to test macro"]]
+                 [:3 [:km "New global macro"]] ; TODO: create global macro from Test (clear test, focus on naming new macro)
+                 [:tab [:km "Test"]]
+                 ;[:q [:km "open: Photos"]]
+                 ;[:w [:km "open: Simulator / Xcode"]]
+                 ;[:q [:km "open: MindNode"]]
+                 ;[:q [:km "edit: 1st Safari tab"]]
+                 [:q [:km "open: Figma"]]
+                 [:w [:km "Save clipboard link"]]
+                 [:e :!CO8] ; Alfred clipboard history search
+                 [:r [:km "Centre mouse to active app"]]
+                 [:i :!Treturn_or_enter]
+                 [:o :!Oreturn_or_enter]
+                 [:p :!CTOc] ; Sleep
+                 [:open_bracket :!CT5] ; Turn display on/off
+                 [:caps_lock :!CTOu] ; Sip color picker
+                 [:a [:km "open: Chrome Canary"]]
+                 [:s [:km "edit: 2nd iTerm tab"]]
+                 [:d [:km "Save clipboard link (top)"]]
+                 [:h [:km "Make markdown link from selection {link}"]]
+                 [:j [:km "edit: 1st iTerm tab"]]
+                 [:k :return_or_enter]
+                 [:l :!Creturn_or_enter]
+                 [:semicolon [:km "edit: Karabiner"]]
+                 [:quote [:km "Goku Run"]]
+                 [:z :!Ospacebar] ; Switch language (Russian <-> English)
+                 [:n :!Freturn_or_enter]
+                 [:m :!Sreturn_or_enter]
+                 [:comma  [:km "Add safari link to selected markdown text"]]
+                 [:period :!CTO4] ; Alfred file action
+                 [:spacebar :!CTq]]} ; Selection -> Web Searches
+        {:des "gkey (actions)"
+         :rules [:g-mode
+                 [:q :!CT3] ; Search bartender menu items
+                 [:w :!CSgrave_accent_and_tilde] ; Switch between active windows (go up)
+                 [:caps_lock [:km "Go to KM group of current app from picklist"]]
+                 [:a [:km "Go to KM group of current app"]]
+                 [:s [:km "Dismiss notifications"]]
+                 [:h :!CSOa] ; Move window left
+                 [:j :!Cgrave_accent_and_tilde] ; Switch between active windows  (go down)
+                 [:k :!COSf] ; Maximize window
+                 [:l :!CSOd] ; Move window right
+                 [:semicolon :!COSs] ; Move window between different screen & maximize (iPad)
+                 [:z :!CO0] ; Show Dropzone dropdown
+                 [:n :!CTOg] ; Turn on/off notifications
+                 [:m :!COslash] ; Show/hide notification centre
+                 [:period :!COS6]]} ; Toggle Night Shift on/off.
+        ;------------------------------------------------------------------------------------------------------- H
+        {:des "hkey (hyper)"
+         :rules [:h-mode
+                 ;------------------------------------------------------------------------------- esc
+                 [:escape :!!escape]
+                 ;
+                 [:f1 :!!f1]
+                 [:f2 :!!f2]
+                 [:f3 :!!f3]
+                 [:f4 :!!f4]
+                 [:f5 :!!f5]
+                 ;---
+                 [:f6 :!!f6]
+                 [:f7 :!!f7]
+                 [:f8 :!!f8]
+                 [:f9 :!!f9]
+                 [:f10 :!!f10]
+                 [:f11 :!!f11]
+                 [:f12 :!!f12]
+                 ;------------------------------------------------------------------------------- ~
+                 [:grave_accent_and_tilde :!!grave_accent_and_tilde]
+                 ;
+                 [:1 :!!1]
+                 [:2 :!!2]
+                 [:3 :!!3]
+                 [:4 :!!4]
+                 [:5 :!!5]
+                 ;---
+                 [:6 :!!6]
+                 [:7 :!!7]
+                 [:8 :!!8]
+                 [:9 :!!9]
+                 [:0 :!!0]
+                 ;
+                 [:hyphen :!!hyphen]
+                 [:equal_sign :!!equal_sign]
+                 ;
+                 [:delete_or_backspace :!!delete_or_backspace]
+                 ;------------------------------------------------------------------------------- tab
+                 [:tab :!!tab]
+                 ;
+                 [:q :!!q]
+                 [:w :!!w]
+                 [:e :!!e]
+                 [:r :!!r]
+                 [:t :!!t]
+                 ;---
+                 [:y :!!y]
+                 [:u :!!u]
+                 [:i :!!i]
+                 [:o :!!o]
+                 [:p :!!p]
+                 ;
+                 [:open_bracket :!!open_bracket]
+                 [:close_bracket :!!close_bracket]
+                 ;
+                 [:backslash :!!backslash]
+                 ;------------------------------------------------------------------------------- caps
+                 [:caps_lock :!!caps_lock]
+                 ;
+                 [:a :!!a]
+                 [:s :!!s]
+                 [:d :!!d]
+                 [:f :!!f]
+                 [:g :!!g]
+                 ;---
+                 ;[:h :!!h]
+                 [:j :!!j]
+                 [:k :!!k]
+                 [:l :!!l]
+                 [:semicolon :!!semicolon]
+                 [:quote :!!quote]
+                 ;
+                 [:return_or_enter :!!return_or_enter]
+                 ;------------------------------------------------------------------------------- shift
+                 [:left_shift :!!f13]
+                 ;
+                 [:z :!!z]
+                 [:x :!!x]
+                 [:c :!!c]
+                 [:v :!!v]
+                 [:b :!!b]
+                 ;---
+                 [:n :!!n]
+                 [:m :!!m]
+                 ;
+                 [:comma :!!comma]
+                 [:period :!!period]
+                 [:slash :!!slash]
+                 ;
+                 [:right_shift :!!f20]
+                 ;------------------------------------------------------------------------------- spc
+                 [:fn :!!f14]
+                 ;
+                 [:left_control :!!f15]
+                 [:left_option :!!f16]
+                 [:left_command :!!f17]
+                 ;---
+                 [:spacebar :!!spacebar]
+                 ;---
+                 [:right_command :!!f18]
+                 [:right_option :!!f19]
+                 ;------------------------------------------------------------------------------- ◄▲▼►
+                 [:left_arrow :!!left_arrow]
+                 [:right_arrow :!!right_arrow]
+                 [:up_arrow :!!up_arrow]
+                 [:down_arrow :!!down_arrow]
+                ]}
+
+     
+
+        ;------------------------------------------------------------------------------------------------------- K
+        #_{:des "kkey (undefined)"
+         :rules [:k-mode
+                 ;------------------------------------------------------------------------------- esc
+                 [:escape :!!escape]
+                 ;
+                 [:f1 :!!f1]
+                 [:f2 :!!f2]
+                 [:f3 :!!f3]
+                 [:f4 :!!f4]
+                 [:f5 :!!f5]
+                 ;---
+                 [:f6 :!!f6]
+                 [:f7 :!!f7]
+                 [:f8 :!!f8]
+                 [:f9 :!!f9]
+                 [:f10 :!!f10]
+                 [:f11 :!!f11]
+                 [:f12 :!!f12]
+                 ;------------------------------------------------------------------------------- ~
+                 [:grave_accent_and_tilde :!!grave_accent_and_tilde]
+                 ;
+                 [:1 :!!1]
+                 [:2 :!!2]
+                 [:3 :!!3]
+                 [:4 :!!4]
+                 [:5 :!!5]
+                 ;---
+                 [:6 :!!6]
+                 [:7 :!!7]
+                 [:8 :!!8]
+                 [:9 :!!9]
+                 [:0 :!!0]
+                 ;
+                 [:hyphen :!!hyphen]
+                 [:equal_sign :!!equal_sign]
+                 ;
+                 [:delete_or_backspace :!!delete_or_backspace]
+                 ;------------------------------------------------------------------------------- tab
+                 [:tab :!!tab]
+                 ;
+                 [:q :!!q]
+                 [:w :!!w]
+                 [:e :!!e]
+                 [:r :!!r]
+                 [:t :!!t]
+                 ;---
+                 [:y :!!y]
+                 [:u :!!u]
+                 [:i :!!i]
+                 [:o :!!o]
+                 [:p :!!p]
+                 ;
+                 [:open_bracket :!!open_bracket]
+                 [:close_bracket :!!close_bracket]
+                 ;
+                 [:backslash :!!backslash]
+                 ;------------------------------------------------------------------------------- caps
+                 [:caps_lock :!!caps_lock]
+                 ;
+                 [:a :!!a]
+                 [:s :!!s]
+                 [:d :!!d]
+                 [:f :!!f]
+                 [:g :!!g]
+                 ;---
+                 [:h :!Sh]
+                 [:j :!Sj]
+                 ;[:k :!Sk]
+                 [:l :!!l]
+                 [:semicolon :!!semicolon]
+                 [:quote :!!quote]
+                 ;
+                 [:return_or_enter :!!return_or_enter]
+                 ;------------------------------------------------------------------------------- shift
+                 [:left_shift :!!f13]
+                 ;
+                 [:z :!!z]
+                 [:x :!!x]
+                 [:c :!!c]
+                 [:v :!!v]
+                 [:b :!!b]
+                 ;---
+                 [:n :!!n]
+                 [:m :!!m]
+                 ;
+                 [:comma :!!comma]
+                 [:period :!!period]
+                 [:slash :!!slash]
+                 ;
+                 [:right_shift :!!f20]
+                 ;------------------------------------------------------------------------------- spc
+                 [:fn :!!f14]
+                 ;
+                 [:left_control :!!f15]
+                 [:left_option :!!f16]
+                 [:left_command :!!f17]
+                 ;---
+                 [:spacebar :!!spacebar]
+                 ;---
+                 [:right_command :!!f18]
+                 [:right_option :!!f19]
+                 ;------------------------------------------------------------------------------- ◄▲▼►
+                 [:left_arrow :!!left_arrow]
+                 [:right_arrow :!!right_arrow]
+                 [:up_arrow :!!up_arrow]
+                 [:down_arrow :!!down_arrow]
+                ]}
+
+        {:des "lkey (ctrl)"
+         :rules [:l-mode
+                 ;------------------------------------------------------------------------------- esc
+                 [:escape :!Tescape]
+                 ;
+                 [:f1 :!Tf1]
+                 [:f2 :!Tf2]
+                 [:f3 :!Tf3]
+                 [:f4 :!Tf4]
+                 [:f5 :!Tf5]
+                 ;---
+                 [:f6 :!Tf6]
+                 [:f7 :!Tf7]
+                 [:f8 :!Tf8]
+                 [:f9 :!Tf9]
+                 [:f10 :!Tf10]
+                 [:f11 :!Tf11]
+                 [:f12 :!Tf12]
+                 ;------------------------------------------------------------------------------- ~
+                 [:grave_accent_and_tilde :!Tgrave_accent_and_tilde]
+                 ;
+                 [:1 :!T1]
+                 [:2 :!T2]
+                 [:3 :!T3]
+                 [:4 :!T4]
+                 [:5 :!T5]
+                 ;---
+                 [:6 :!T6]
+                 [:7 :!T7]
+                 [:8 :!T8]
+                 [:9 :!T9]
+                 [:0 :!T0]
+                 ;
+                 [:hyphen :!Thyphen]
+                 [:equal_sign :!Tequal_sign]
+                 ;
+                 [:delete_or_backspace :!Tdelete_or_backspace]
+                 ;------------------------------------------------------------------------------- tab
+                 [:tab :!Ttab]
+                 ;
+                 [:q :!Tq]
+                 [:w :!Tw]
+                 [:e :!Te]
+                 [:r :!Tr]
+                 [:t :!Tt]
+                 ;---
+                 [:y :!Ty]
+                 [:u :!Tu]
+                 [:i :!Ti]
+                 [:o :!To]
+                 [:p :!Tp]
+                 ;
+                 [:open_bracket :!Topen_bracket]
+                 [:close_bracket :!Tclose_bracket]
+                 ;
+                 [:backslash :!Tbackslash]
+                 ;------------------------------------------------------------------------------- caps_lock
+                 [:caps_lock :!Tcaps_lock]
+                 ;
+                 [:a :!Ta]
+                 [:s :!Ts]
+                 [:d :!Td]
+                 [:f :!Tf]
+                 [:g :!Tg]
+                 ;---
+                 [:h :!Th]
+                 [:j :!Tj]
+                 [:k :!Tk]
+                 ;[:l :!Tl]
+                 ;
+                 [:semicolon :semicolon]
+                 [:quote :!Tquote]
+                 ;
+                 [:return_or_enter :!Treturn_or_enter]
+                 ;------------------------------------------------------------------------------- shift
+                 [:left_shift :!Tf13]
+                 ;
+                 [:z :!Tz]
+                 [:x :!Tx]
+                 [:c :!Tc]
+                 [:v :!Tv]
+                 [:b :!Tb]
+                 ;---
+                 [:n :!Tn]
+                 [:m :!Tm]
+                 ;
+                 [:comma :!Tcomma]
+                 [:period :!Tperiod]
+                 [:slash :!Tslash]
+                 ;
+                 [:right_shift :!Tf20]
+                 ;------------------------------------------------------------------------------- spacebar
+                 [:fn :!Tf14]
+                 ;
+                 [:left_control :!Tf15]
+                 [:left_option :!Tf16]
+                 [:left_command :!Tf17]
+                 ;---
+                 [:spacebar :!Tspacebar]
+                 ;---
+                 [:right_command :!Tf18]
+                 [:right_option :!Tf19]
+                 ;------------------------------------------------------------------------------- ◄▲▼►
+                 [:left_arrow :!Tleft_arrow]
+                 [:right_arrow :!Tright_arrow]
+                 [:up_arrow :!Tup_arrow]
+                 [:down_arrow :!Tdown_arrow]
+                ]}
+
+        ;------------------------------------------------------------------------------------------------------- Slash
+        {:des "semicolonkey (left_shift)"
+         :rules [:semicolon-mode
+                 ;;------------------------------------------------------------------------------------------------------ESC
+                 [:escape :!Sescape]
+                 ;
+                 [:f1 :!Sf1]
+                 [:f2 :!Sf2]
+                 [:f3 :!Sf3]
+                 [:f4 :!Sf4]
+                 [:f5 :!Sf5]
+                 ;--
+                 [:f6 :!Sf6]
+                 [:f7 :!Sf7]
+                 [:f8 :!Sf8]
+                 [:f9 :!Sf9]
+                 [:f10 :!Sf10]
+                 [:f11 :!Sf11]
+                 [:f12 :!Sf12]
+                 ;;------------------------------------------------------------------------------------------------------111
+                 [:grave_accent_and_tilde :!Sgrave_accent_and_tilde]
+                 ;
+                 [:1 :1]
+                 [:2 :2]
+                 [:3 :3]
+                 [:4 :4]
+                 [:5 :5]
+                 ;---
+                 [:6 :6]
+                 [:7 :7]
+                 [:8 :8]
+                 [:9 :9]
+                 [:0 :0]
+                 ;
+                 [:hyphen :!Shyphen]
+                 [:equal_sign :!Sequal_sign]
+                 ;
+                 [:delete_or_backspace :!Sdelete_or_backspace]
+                 ;;------------------------------------------------------------------------------------------------------QQQ
+                 [:tab :!Stab]
+                 ;
+                 [:q :!Sq]
+                 [:w :!Sw]
+                 [:e :!Se]
+                 [:r :!Sr]
+                 [:t :!St]
+                 ;---
+                 [:y :!Sy]
+                 [:u :!Su]
+                 [:i :!Si]
+                 [:o :!So]
+                 [:p :!Sp]
+                 ;
+                 [:open_bracket :!Sopen_bracket]
+                 [:close_bracket :!Sclose_bracket]
+                 ;
+                 [:backslash :!Sbackslash]
+                 ;;------------------------------------------------------------------------------------------------------AAA
+                 [:caps_lock :!Scaps_lock]
+                 ;
+                 [:a :!Sa]
+                 [:s :!Ss]
+                 [:d :!Sd]
+                 [:f :!Sf]
+                 [:g :!Sg]
+                 ;---
+                 [:h :!Sh]
+                 [:j :!Sj]
+                 [:k :!Sk]
+                 [:l :!Sl]
+                 ; [:semicolon :!Ssemicolon]
+                 [:quote :!Squote]
+                 ;
+                 [:return_or_enter :!Sreturn_or_enter]
+                 ;;------------------------------------------------------------------------------------------------------ZZZ
+                 [:left_shift :!Sf13]
+                 ;
+                 [:z :!Sz]
+                 [:x :!Sx]
+                 [:c :!Sc]
+                 [:v :!Sv]
+                 [:b :!Sb]
+                 ;---
+                 [:n :!Sn]
+                 [:m :!Sm]
+                 ;
+                 [:comma :!Scomma]
+                 [:period :!Speriod]
+                 [:slash :!Sslash]
+                 ;
+                 [:right_shift :!Sf20]
+                 ;;------------------------------------------------------------------------------------------------------SPC
+                 [:fn :!Sf14]
+                 ;
+                 [:left_control :!Sf15]
+                 [:left_option :!Sf16]
+                 [:left_command :!Sf17]
+                 ;---
+                 [:spacebar :!Sspacebar]
+                 ;---
+                 [:right_command :!Sf18]
+                 [:right_option :!Sf19]
+                 ;;------------------------------------------------------------------------------------------------------◄▲▼►
+                 [:left_arrow :!Sleft_arrow]
+                 [:right_arrow :!Sright_arrow]
+                 [:up_arrow :!Sup_arrow]
+                 [:down_arrow :!Sdown_arrow]
+                ]}
+
+        ;------------------------------------------------------------------------------------------------------- K
+        {:des "quotekey (KE/KM)"
+         :rules [:quote-mode
+                 ;------------------------------------------------------------------------------- esc
+                 [:escape [:km "open: Activity Monitor"]]
+                 ;
+                 [:f1 :!!f1]
+                 [:f2 :!!f2]
+                 [:f3 :!!f3]
+                 [:f4 :!!f4]
+                 [:f5 :!!f5]
+                 ;---
+                 [:f6 :!!f6]
+                 [:f7 :!!f7]
+                 [:f8 :!!f8]
+                 [:f9 :!!f9]
+                 [:f10 :!!f10]
+                 [:f11 :!!f11]
+                 [:f12 :!!f12]
+                 ;------------------------------------------------------------------------------- ~
+                 [:grave_accent_and_tilde [[:km "open: Karabiner Elements"] ["quote,,grave_accent_and_tilde" 0]] ["quote,,grave_accent_and_tilde" 1]] ; 
+                 [:grave_accent_and_tilde ["quote,,grave_accent_and_tilde" 1] ["quote,,grave_accent_and_tilde" 0] {:delayed {:invoked [[:km "open: Karabiner-EventViewer"] ["quote,,grave_accent_and_tilde" 0]] :canceled ["quote,,grave_accent_and_tilde" 0]} ; 
+                                :params {:delay 119}}]
+                 ;
+                 [:1 [[:km "update & open karabiner-yqrashawn.edn"] ["quote,,1" 0]] ["quote,,1" 1]] ; yqrashawn.edn
+                 [:1 ["quote,,1" 1] ["quote,,1" 0] {:delayed {:invoked [[:km "update & open karabiner-nikita.edn"] ["quote,,1" 0]] :canceled ["quote,,1" 0]} 
+                                        :params {:delay 119}}] ; nikita.edn
+	                [:2 [[:open "https://github.com/search?l=&o=desc&q=extension%3A.edn+filename%3Akarabiner.edn&s=&type=Code"] ["quote,,2" 0]] ["quote,,2" 1]] ; Goku in GitHub
+                 [:2 ["quote,,2" 1] ["quote,,2" 0] {:delayed {:invoked [[:open "https://github.com/yqrashawn/GokuRakuJoudo/blob/master/in-the-wild.md"] ["quote,,2" 0]] :canceled ["quote,,3" 0]}  
+                                        :params {:delay 119}}] ; goku in the wild
+                 [:3 [:km "KE - rule templates"]]
+ 	               [:4 [[:open "/Users/z/.config/spacebar/spaceasbarrc"] ["quote,,4" 0]] ["quote,,4" 1]]
+                 [:4 ["quote,,4" 1] ["quote,,4" 0] {:delayed {:invoked [[:opena "emacs" "/Users/z/.config/yabai/yabairc"] ["quote,,4" 0]] :canceled ["quote,,4" 0]}  
+                                        :params {:delay 119}}]
+                 ;---
+                 [:6 [[:open "/Users/z/.emacs.d/emacs-init-z-org-mode.org"] ["quote,,6" 0]] ["quote,,6" 1]]
+                 [:6 ["quote,,6" 1] ["quote,,6" 0] {:delayed {:invoked [[:open "/Users/z/Desktop/EmacsConfig/Prot/emacs/.emacs.d/prot-emacs.org"] ["quote,,6" 0]] :canceled ["quote,,6" 0]}  
+                                        :params {:delay 119}}]
+
+                 [:7 [[:km "placeholder2"] ["quote,,7" 0]] ["quote,,7" 1]] ; 
+                 [:7 ["quote,,7" 1] ["quote,,7" 0] {:delayed {:invoked [[:km "update & modify & open: emacs"] ["quote,,7" 0]] :canceled ["quote,,7" 0]} ; 
+                                :params {:delay 119}}]                 
+                 [:8 [[:km "placeholder2"] ["quote,,8" 0]] ["quote,,8" 1]] ; 
+                 [:8 ["quote,,8" 1] ["quote,,8" 0] {:delayed {:invoked [[:km "update & open: zaeph_init.el"] ["quote,,8" 0]] :canceled ["quote,,8" 0]} ; 
+                                :params {:delay 119}}]
+                 [:9 [[:km "placeholder2"] ["quote,,9" 0]] ["quote,,9" 1]] ; 
+                 [:9 ["quote,,9" 1] ["quote,,9" 0] {:delayed {:invoked [[:km "update & open: yq_init.el"] ["quote,,9" 0]] :canceled ["quote,,9" 0]} ; 
+                                :params {:delay 119}}]
+                 ; [:0 :!!0]
+                 [:0 [[:km "placeholder2"] ["quote,,0" 0]] ["quote,,0" 1]] ; 
+                 [:0 ["quote,,0" 1] ["quote,,0" 0] {:delayed {:invoked [[:km "update & open: emacs-from-scratch"] ["quote,,0" 0]] :canceled ["quote,,0" 0]} ; 
+                                :params {:delay 119}}]                 
+                 ;
+                 ; [:hyphen :!!hyphen]
+                 [:hyphen [[:km "placeholder2"] ["quote,,hyphen" 0]] ["quote,,hyphen" 1]] ; 
+                 [:hyphen ["quote,,hyphen" 1] ["quote,,hyphen" 0] {:delayed {:invoked [[:km "update & open: d12frosted"] ["quote,,hyphen" 0]] :canceled ["quote,,hyphen" 0]} ; 
+                                :params {:delay 119}}]                 
+                 [:equal_sign :!!equal_sign]
+                 ;
+                 [:delete_or_backspace :!!delete_or_backspace]
+                 ;------------------------------------------------------------------------------- tab
+                 ;[:tab [:km "Karabiner on/off"]]
+                 [:tab [:open "/Users/z/environment/karabiner/karabiner.edn"]] ; my goku file
+                 ;
+                 [:q [:km "Maestro - Quit KM Editor & Engine & Alfred"]]
+                 ;[:w :!!w]
+                 [:e [:km "Maestro - Display Last KM Macro Error Ver 4 [Pub]"]]
+                 [:r [:km "Maestro - Reload KM Editor & Engine"]]
+                 [:t [:open "/Applications/TotalSpaces2.app"]]
+                 ;---
+                 [:y [[:km "Terminal - brew services restart koekeishiya/formulae/yabai"] ["quote,,y" 0]] ["quote,,y" 1]]
+                 [:y ["quote,,y" 1] ["quote,,y" 0] {:delayed {:invoked [[:km "Terminal - brew services restart koekeishiya/formulae/yabai - step by step"] ["quote,,y" 0]] :canceled ["quote,,y" 0]} 
+                                        :params {:delay 119}}]
+                 [:u :!!u]
+                 [:o :!!o]
+                 [:p :!!p]
+                 ;
+                 [:open_bracket :!!open_bracket]
+                 [:close_bracket :!!close_bracket]
+                 ;
+                 [:backslash :!!backslash]
+                 ;------------------------------------------------------------------------------- caps
+                 [:caps_lock [:km "open: Keyboard Maestro"]] ; KM editor
+                 ;
+                 [:a [:km "Maestro - Cancel All Macros"]]
+                 [:s [[:km "Clipboard Switcher"] ["quote,,s" 0]] ["quote,,s" 1]]
+                 [:s ["quote,,s" 1] ["quote,,s" 0] {:delayed {:invoked [[:km "Clipboard Viewer"] ["quote,,s" 0]] :canceled ["quote,,s" 0]} 
+                                        :params {:delay 119}}]
+                 [:d [:km "Maestro - Debugger"]]
+                 [:f :!!f]
+                 [:g :!!g]
+                 ;---
+                 [:h [:!Cclose_bracket ["quote,,h" 0]] ["quote,,h" 1]]
+                 [:h ["quote,,h" 1] ["quote,,h" 0] {:delayed {:invoked [:!Copen_bracket ["quote,,h" 0]] :canceled ["quote,,h" 0]}  
+                                        :params {:delay 119}}]
+
+                 ;[:j :!Sj]
+                 ;[:k :!Sk]
+                 [:j [:km "按住Tab查词"] ["multitouch_extension_finger_count_total" 1]]
+                 [:j {:mkey {:vwheel 60}}] ; Scroll down
+                 [:k {:mkey {:vwheel -60}}] ; Scroll up
+                 [:l :!!l]
+                 [:semicolon :!!semicolon]
+                 ;[:quote :!!quote]
+                 ;
+                 [:return_or_enter :!!return_or_enter]
+                 ;------------------------------------------------------------------------------- shift
+                 [:left_shift [:open "/Applications/Keyboard Maestro.app/Contents/MacOS/Keyboard Maestro Engine.app"]] ; Keyboard Maestro Engine
+                 ;
+                 [:z [:km "open: Hazel"]]
+                 [:x [:km "open: Xcode"]]
+                 [:c [:km "open: Console"]]
+                 [:v [[:km "open: Shortcut Detective"] ["quote,,v" 0]] ["quote,,v" 1]]
+                 [:v ["quote,,v" 1] ["quote,,v" 0] {:delayed {:invoked [[:km "open: Karabiner-EventViewer"] ["quote,,v" 0]] :canceled ["quote,,v" 0]} 
+                                        :params {:delay 119}}]
+                 [:b [:km "open: Activity Monitor"]]
+                 ;---
+                 ;[:n [:km "Merriam-Webster - 取词窗口查词 - with clipboard"]]
+                 [:n [:km "Notification Center - Clear"]]
+                 ;[:m [:km "Merriam-Webster - 取词窗口查词 - with no clipboard"]]
+                 ;
+                 [:comma :!!comma]
+                 [:period :!!period]
+                 [:slash :!!slash]
+                 ;
+                 [:right_shift :!QWEf20] ; 开启欧路peek
+                 ;------------------------------------------------------------------------------- fn
+                 ;[:fn [:km "open: Activity Monitor"]]
+                 ;
+                 [:left_control :!!f15]
+                 [:left_option :!!f16]
+                 [:left_command :!!f17]
+                 ;---
+                 [:spacebar :!!spacebar]
+                 ;---
+                 [:right_command [:!WERf18 ["quote,,right_command" 0]] ["quote,,right_command" 1]] ; 取词
+                 [:right_command ["quote,,right_command" 1] ["quote,,right_command" 0] {:delayed {:invoked [[:km "YG/MW/UD/Forvo - with no clipboard"] ["quote,,right_command" 0]] :canceled ["quote,,right_command" 0]} ; 
+                                :params {:delay 119}}]
+                 [:right_option [:!QERf19 ["quote,,right_option" 0]] ["quote,,right_option" 1]] ; 划词
+                 [:right_option ["quote,,right_option" 1] ["quote,,right_option" 0] {:delayed {:invoked [[:km "YG/MW/UD/Forvo - with clipboard"] ["quote,,right_option" 0]] :canceled ["quote,,right_option" 0]} ; 取词
+                                :params {:delay 119}}]
+                 ;[:right_option :!WERf18] ; 开启欧路鼠标取词模式
+                 ;------------------------------------------------------------------------------- ◄▲▼►
+                 [:left_arrow :!!left_arrow]
+                 [:right_arrow :!!right_arrow]
+                 [:up_arrow :!!up_arrow]
+                 [:down_arrow :!!down_arrow]
+                ]}   
+
+
+        ;------------------------------------------------------------------------------------------------------- Semicolon
+        ;swap
+        ;{:des "swap : and ;"
+        ; :rules [[:#Psemicolon :!Ssemicolon]
+        ;         [:!Ssemicolon :semicolon]]}
+        ;simlayer
+
+        ;------------------------------------------------------------------------------------------------------- Quote
+        #_{:des "quotekey (AfloatX)"
+         :rules [:quote-mode
+                 ;------------------------------------------------------------------------------- esc
+                 ;
+                 ;---
+                 ;------------------------------------------------------------------------------- ~
+                 ;
+                 ;---
+                 ;
+                 ;
+                 ;------------------------------------------------------------------------------- tab
+                 ;
+                 [:t [:km "AfloatX - Transparency..."]]
+                 [:t [:km "AfloatX - AfloatX - Transient Window"]]
+                 ;---
+                 [:i [:km "AfloatX - Invert Colors"]]
+                 ;
+                 ;
+                 ;------------------------------------------------------------------------------- caps_lock
+                 ;
+                 [:s [:km "AfloatX - Sticky Window"]]
+                 [:d [:km "AfloatX - Drop Window"]]
+                 [:f [:km "AfloatX - Float Window"]]
+                 ;---
+                 ;
+                 ;
+                 ;------------------------------------------------------------------------------- shift
+                 ;
+                 ;---
+                 ;
+                 [:c [:km "AfloatX - Click-Through Window"]]
+                 ;
+                 ;------------------------------------------------------------------------------- spacebar
+                 ;
+                 ;---
+                 ;---
+                 ;------------------------------------------------------------------------------- ◄▲▼►
+                ]}
+
+        ;------------------------------------------------------------------------------------------------------- Return_or_Enterkey
+        {:des "return_or_enterkey (undefined)"
+         :rules [:return_or_enter-mode
+                 ;------------------------------------------------------------------------------- esc
+                 ;
+                 ;---
+                 ;------------------------------------------------------------------------------- ~
+                 ;
+                 ;---
+                 ;
+                 ;
+                 ;------------------------------------------------------------------------------- tab
+                 ;
+                 ;---
+                 ;
+                 ;
+                 ;------------------------------------------------------------------------------- caps_lock
+                 ;
+                 ;---
+                 ;
+                 ;
+                 ;------------------------------------------------------------------------------- shift
+                 ;
+                 ;---
+                 ;
+                 ;
+                 ;------------------------------------------------------------------------------- spacebar
+                 ;
+                 ;---
+                 ;---
+                 ;------------------------------------------------------------------------------- ◄▲▼►
+                ]}
+
+
+;Left_Shift -------------------------------------------------------------------------------------------------------------------- Left_Shift
+        ;------------------------------------------------------------------------------------------------------- Left_Shift
+        {:des "left_shiftkey (S)"
+         :rules [:left_shift-mode
+                 ;------------------------------------------------------------------------------- esc
+                 [:escape :!Sescape]
+                 ;
+                 [:f1 :!Sf1]
+                 [:f2 :!Sf2]
+                 [:f3 :!Sf3]
+                 [:f4 :!Sf4]
+                 [:f5 :!Sf5]
+                 ;---
+                 [:f6 :!Sf6]
+                 [:f7 :!Sf7]
+                 [:f8 :!Sf8]
+                 [:f9 :!Sf9]
+                 [:f10 :!Sf10]
+                 [:f11 :!Sf11]
+                 [:f12 :!Sf12]
+                 ;------------------------------------------------------------------------------- ~
+                 [:grave_accent_and_tilde :!Sgrave_accent_and_tilde]
+                 ;
+                 [:1 :1]
+                 [:2 :2]
+                 [:3 :3]
+                 [:4 :4]
+                 [:5 :5]
+                 ;---
+                 [:6 :6]
+                 [:7 :7]
+                 [:8 :8]
+                 [:9 :9]
+                 [:0 :0]
+                 ;
+                 [:hyphen :!Shyphen]
+                 [:equal_sign :!Sequal_sign]
+                 ;
+                 [:delete_or_backspace :!Sdelete_or_backspace]
+                 ;------------------------------------------------------------------------------- tab
+                 [:tab :!Stab]
+                 ;
+                 [:q :!Sq]
+                 [:w :!Sw]
+                 [:e :!Se]
+                 [:r :!Sr]
+                 [:t :!St]
+                 ;---
+                 [:y :!Sy]
+                 [:u :!Su]
+                 [:i :!Si]
+                 [:o :!So]
+                 [:p :!Sp]
+                 ;
+                 [:open_bracket :!Sopen_bracket]
+                 [:close_bracket :!Sclose_bracket]
+                 ;
+                 [:backslash :!Sbackslash]
+                 ;------------------------------------------------------------------------------- caps_lock
+                 [:caps_lock :!Scaps_lock]
+                 ;
+                 [:a :!Sa]
+                 [:s :!Ss]
+                 [:d :!Sd]
+                 [:f :!Sf]
+                 [:g :!Sg]
+                 ;---
+                 [:h :!Sh]
+                 [:j :!Sj]
+                 [:k :!Sk]
+                 [:l :!Sl]
+                 ;
+                 [:semicolon :semicolon]
+                 [:quote :!Squote]
+                 ;
+                 [:return_or_enter :!Sreturn_or_enter]
+                 ;------------------------------------------------------------------------------- shift
+                 ;[:left_shift :!Sf13]
+                 ;
+                 [:z :!Sz]
+                 [:x :!Sx]
+                 [:c :!Sc]
+                 [:v :!Sv]
+                 [:b :!Sb]
+                 ;---
+                 [:n :!Sn]
+                 [:m :!Sm]
+                 ;
+                 [:comma :!Scomma]
+                 [:period :!Speriod]
+                 [:slash :!Sslash]
+                 ;
+                 [:right_shift :!Sf20]
+                 ;------------------------------------------------------------------------------- spacebar
+                 [:fn :!Sf14]
+                 ;
+                 [:left_control :!Sf15]
+                 [:left_option :!Sf16]
+                 [:left_command :!Sf17]
+                 ;---
+                 [:spacebar :!Sspacebar]
+                 ;---
+                 [:right_command :!Sf18]
+                 [:right_option :!Sf19]
+                 ;------------------------------------------------------------------------------- ◄▲▼►
+                 [:left_arrow :!Sleft_arrow]
+                 [:right_arrow :!Sright_arrow]
+                 [:up_arrow :!Sup_arrow]
+                 [:down_arrow :!Sdown_arrow]
+                ]}
+        ;------------------------------------------------------------------------------------------------------- X
+        {:des "xkey (spotify)"
+         :rules [:x-mode
+                 [:r [[:km "search and replace song URI in .edn file and run goku"] ["x,,r" 0]] ["x,,r" 1]] ; 
+                 [:r ["x,,r" 1] ["x,,r" 0] {:delayed {:invoked [[:km "paste current song URI"] ["x,,r" 0]] :canceled ["x,,r" 0]} ; 
+                                :params {:delay 119}}]
+                 ;[:o [:km "Paste current Spotify song link"]]
+                 [:open_bracket [:alfred "twitter_search_current_track" "com.vdesabou.spotify.mini.player"]]
+                 [:close_bracket [:alfred "add_current_track_to" "com.vdesabou.spotify.mini.player" "spotify:playlist:2N82DnDsPGMnpJhN8sVFJu"]] ; Add song to Bliss playlist
+                 [:j [:alfred "show_alfred_playlist" "com.vdesabou.spotify.mini.player"]]
+                 [:k [:alfred "show_current_track" "com.vdesabou.spotify.mini.player"]]
+                 [:semicolon [:alfred "add_current_track_to_alfred_playlist_or_your_music" "com.vdesabou.spotify.mini.player"]] ; Add song to Likes playlist
+                 [:quote [:alfred "add_current_track_to" "com.vdesabou.spotify.mini.player" "spotify:playlist:0ESjwZeTcHOWzY3FYO5zs5"]] ; Add song to Focus playlist
+                 [:n [:alfred "add_current_track_to" "com.vdesabou.spotify.mini.player"]]
+                 [:m [:alfred "remove_current_track_from" "com.vdesabou.spotify.mini.player"]]
+                 ;[:comma [:alfred "youtube_search_current_track" "com.vdesabou.spotify.mini.player"]] ; TODO: twitter search
+                 [:comma [:alfred "show_search_online" "com.vdesabou.spotify.mini.player"]] ; TODO: split up further into binds for direct searches of tracks/artists/all
+                 [:period [:alfred "youtube_search_current_track" "com.vdesabou.spotify.mini.player"]]
+                 [:slash [:alfred "reddit_search_current_track" "com.vdesabou.spotify.mini.player"]]
+                ]}
+
+        ;------------------------------------------------------------------------------------------------------- C
+        {:des "ckey (chat)"
+         :rules [:c-mode
+                 [:w [:km "open: Wechat"]]
+                 [:e [:km "open: Telegram"]]
+                 [:i [:km "open: WhatsApp"]]
+                 [:o [:km "open: Zoom"]]
+                 [:s [:km "open: Skype"]]
+                 [:d [:km "New Spark email"]]
+                 [:f [:km "open: FaceTime"]]
+                 [:f [:km "open: Spark"]]
+                 [:g [:alfred "search contacts" "nikivi.search.content"]]
+                 [:h [:km "Create new contact"]]
+                 [:j [:km "w: Element"]]
+                 [:k [:km "open: Telegram"]]
+                 [:semicolon [:km "open: Slack"]]
+                 ;[:c [:km "open: Contacts"]]
+                 [:v [:km "open: Tweetbot"]]
+                 [:b [:km "w: Twitter"]]
+                 [:n [:km "New tweet"]]
+                 [:m [:km "New tweet with current URL"]]
+                 [:comma [:km "w: Twitter Search"]]
+                 ;[:period [:km "open: Textual"]]
+                 [:slash [:km "Search Tweetbot"]]
+                 [:spacebar :!CSOz]]} ; Selection -> Twitter
+        ;------------------------------------------------------------------------------------------------------- C
+        #_{:des "ckey (run + dots)"
+         :rules [:c-mode
+                 [:tab [:km "proj: Learning"]]
+                 [:u [:km "run: Rust"]]
+                 [:i [:km "run: Julia"]] ; TODO: maybe use Pluto.jl notebook
+                 [:o [:km "run: Deno"]]
+                 [:a [:km "Clone repo to ~/clones and open with VS Code"]]
+                 [:s [:km "Clone repo to ~/clones"]]
+                 ;[:d [:km "Clone repo to ~/src/clones and open with VS Code"]] ; TODO: open with Xcode
+                 [:j [:km "run: Bash"]]
+                 [:k [:km "run: Go"]]
+                 [:l [:km "run: Python"]]
+                 [:semicolon [:alfred "search learning" "nikivi.private.directories"]]
+                 [:quote [:km "proj: Go"]]
+                 [:n [:km "run: Node"]]
+                 [:m [:km "run: Swift"]]
+                 [:period [:km "edit: Dotfiles Magefile"]]
+                 [:spacebar :!CSOy]]} ; Selection -> Stack Overflow
+
+        ;------------------------------------------------------------------------------------------------------- V
+        {:des "vkey (media)"
+         :rules [:v-mode
+                 ;------------------------------------------------------------------------------- esc
+                 ;
+                 ;---
+                 ;------------------------------------------------------------------------------- ~
+                 [:grave_accent_and_tilde [:alfred "artist_radio" "com.vdesabou.spotify.mini.player"]]
+                 ;
+                 ;---
+                 ;
+                 ;
+                 ;------------------------------------------------------------------------------- tab
+                 ;[:tab [:km "Audio Output - SwitchAudioSource - switch to QC35"]]
+                 ;[:tab [:km "Audio Output - connect and switch to QC35"]]
+                 [:tab [[:km "Audio Output - connect and switch to Zpods"] ["v,,tab" 0]] ["v,,tab" 1]] ; 
+                 [:tab ["v,,tab" 1] ["v,,tab" 0] {:delayed {:invoked [[:km "Audio Output - connect and switch to QC35"] ["v,,tab" 0]] :canceled ["v,,tab" 0]} ; 
+                                :params {:delay 119}}]
+                 ;
+                 ;[:q [:km "Audio Output - connect and switch to QC35"]]
+                 [:q [[:km "Audio Output - connect and switch to Zpods"] ["v,,q" 0]] ["v,,q" 1]] ; 
+                 [:q ["v,,q" 1] ["v,,q" 0] {:delayed {:invoked [[:km "Audio Output - connect and switch to QC35"] ["v,,q" 0]] :canceled ["v,,q" 0]} ; 
+                                :params {:delay 119}}]
+                 ;[:w :illumination_increment]
+                 ;[:e [:km "Change macOS appearance (dark/light)"]]
+                 ;[:r [:alfred "song_radio" "com.vdesabou.spotify.mini.player"]]
+                 ;[:r [:alfred "repeating_current_track" "com.vdesabou.spotify.mini.player"]]
+                 [:r [[:alfred "play" "com.vdesabou.spotify.mini.player" "spotify:track:2zEJ3OF3UAqn8AsIpgHTsx"] ["v,,r" 0]] ["v,,r" 1]] ; 
+                 [:r ["v,,r" 1] ["v,,r" 0] {:delayed {:invoked [[:alfred "random_track" "com.vdesabou.spotify.mini.player"] ["v,,r" 0]] :canceled ["v,,r" 0]} ; 
+                                :params {:delay 119}}]
+                 ;---
+                 [:y [:alfred "play_liked_songs" "com.vdesabou.spotify.mini.player" "com.vdesabou.spotify.mini.player"]] ; play_liked_songs
+                 [:u [[:km "spotify_mini: track: add_current_track_to 粤语"] ["v,,u" 0]] ["v,,u" 1]] ; 
+                 [:u ["v,,u" 1] ["v,,u" 0] {:delayed {:invoked [[:km "spotify_mini: playback: play 粤语"] ["v,,u" 0]] :canceled ["v,,u" 0]} ; 
+                                :params {:delay 119}}]                 
+                 [:i [[:km "spotify_mini: track: add_current_track_to 闽台"] ["v,,i" 0]] ["v,,i" 1]] ; 
+                 [:i ["v,,i" 1] ["v,,i" 0] {:delayed {:invoked [[:km "spotify_mini: playback: play 闽台"] ["v,,i" 0]] :canceled ["v,,i" 0]} ; 
+                                :params {:delay 119}}]
+                 [:o [[:km "spotify_mini: track: add_current_track_to 法西"] ["v,,o" 0]] ["v,,o" 1]] ; 
+                 [:o ["v,,o" 1] ["v,,o" 0] {:delayed {:invoked [[:km "spotify_mini: playback: play 法西"] ["v,,o" 0]] :canceled ["v,,o" 0]} ; 
+                                :params {:delay 119}}]                                  
+                 [:p [[:km "spotify_mini: track: add_current_track_to 日韩"] ["v,,p" 0]] ["v,,p" 1]] ; 
+                 [:p ["v,,p" 1] ["v,,p" 0] {:delayed {:invoked [[:km "spotify_mini: playback: play 日韩"] ["v,,p" 0]] :canceled ["v,,p" 0]} ; 
+                                :params {:delay 119}}]                 
+                 ;
+                 [:open_bracket [:alfred "play" "com.vdesabou.spotify.mini.player" "spotify:playlist:37i9dQZEVXcMHpP6EcIqNe"]] ; Discover Weekly
+                 [:close_bracket [:alfred "play" "com.vdesabou.spotify.mini.player" "spotify:playlist:37i9dQZEVXcMHpP6EcIqNe"]] ; Discover Weekly
+                 [:backslash [:alfred "play" "com.vdesabou.spotify.mini.player" "spotify:playlist:37i9dQZEVXcMHpP6EcIqNe"]] ; Discover Weekly
+                 ;------------------------------------------------------------------------------- caps_lock
+                 [:caps_lock [:km "Audio Output - SwitchAudioSource - switch to next"]]
+                 ;
+                 ;[:a [:km "Repeat Spotify song"]] ; TODO: do in background
+                 ;[:a [:km "Play/pause Endel"]]
+                 ;[:a [:km "open: Endel"]]
+                 [:a [:alfred "previous" "com.vdesabou.spotify.mini.player"]]
+                 [:s [:alfred "playpause" "com.vdesabou.spotify.mini.player"]]
+                 [:d [:alfred "next" "com.vdesabou.spotify.mini.player"]]
+                 ;[:d :!CO9] ; Connect/disconnect AirPods
+                 [:f [:alfred "featured_playlists" "com.vdesabou.spotify.mini.player"]]
+                 [:g [[:km "spotify_mini: track: add_current_track_to 小郭"] ["v,,g" 0]] ["v,,g" 1]] ; 
+                 [:g ["v,,g" 1] ["v,,g" 0] {:delayed {:invoked [[:km "spotify_mini: playback: play 小郭"] ["v,,g" 0]] :canceled ["v,,g" 0]} ; 
+                                :params {:delay 119}}]
+                 ;---
+                 [:h :vk_consumer_previous]
+                 [:j :mute]
+                 [:k :vk_consumer_play]
+                 [:l :vk_consumer_next]
+                 ;
+                 [:semicolon [:alfred "spot_mini" "com.vdesabou.spotify.mini.player"]]
+                 ;
+                 ;------------------------------------------------------------------------------- shift
+                 ;[:left_shift [:km "Audio Output - SwitchAudioSource - switch to Zpods"]]
+                 ;[:left_shift [:km "Audio Output - connect and switch to Zpods"]]
+                 [:left_shift [[:km "Audio Output - connect and switch to QC35"] ["v,,left_shift" 0]] ["v,,left_shift" 1]] ; 
+                 [:left_shift ["v,,left_shift" 1] ["v,,left_shift" 0] {:delayed {:invoked [[:km "Audio Output - connect and switch to Zpods"] ["v,,left_shift" 0]] :canceled ["v,,left_shift" 0]} ; 
+                                :params {:delay 119}}]
+                 ;
+                 ;[:z [:km "Audio Output - connect and switch to Zpods"]]
+                 [:z [[:km "Audio Output - connect and switch to QC35"] ["v,,z" 0]] ["v,,z" 1]] ; 
+                 [:z ["v,,z" 1] ["v,,z" 0] {:delayed {:invoked [[:km "Audio Output - connect and switch to Zpods"] ["v,,z" 0]] :canceled ["v,,z" 0]} ; 
+                                :params {:delay 119}}]
+                 [:c [[:km "Spotify - quit & relaunch & play: spotify -gj"] ["v,,c" 0]] ["v,,c" 1]]
+                 [:c ["v,,c" 1] ["v,,c" 0] {:delayed {:invoked [[:km "open: spotify"] ["v,,c" 0]] :canceled ["v,,c" 0]}
+                                        :params {:delay 119}}]
+                 [:b [:alfred "show_playlists" "com.vdesabou.spotify.mini.player"]]
+                 ;---
+                 [:n :volume_decrement]
+                 [:m :volume_increment]
+                 ;
+                 [:comma [:alfred "play" "com.vdesabou.spotify.mini.player" "spotify:playlist:0ESjwZeTcHOWzY3FYO5zs5"]] ; Focus
+                 ;[:period [:alfred "play" "com.vdesabou.spotify.mini.player" "spotify:episode:4ZjiY5692n0Nev7q38tMvB"]] ; Rain
+                 [:period [:alfred "play" "com.vdesabou.spotify.mini.player" "spotify:track:7B0ofCHeQu2FoX7P28ZaPp"]] ; Nils
+                 [:slash [:alfred "play" "com.vdesabou.spotify.mini.player" "spotify:playlist:5fIL0WiQ79QtgsP4Y4L20V"]] ; Inspired
+                 ;
+                 [:right_shift [:alfred "play" "com.vdesabou.spotify.mini.player" "spotify:playlist:5QOChSDsvLTtBwXmIn8Pss"]] ; Ambient
+                 ;------------------------------------------------------------------------------- spacebar
+                 ;
+                 [:left_command [[:alfred "show_shows" "com.vdesabou.spotify.mini.player"] ["v,,left_command" 0]] ["v,,left_command" 1]] ; 
+                 [:left_command ["v,,left_command" 1] ["v,,left_command" 0] {:delayed {:invoked [[:alfred "song_radio" "com.vdesabou.spotify.mini.player"] ["v,,left_command" 0]] :canceled ["v,,left_command" 0]} 
+                                 :params {:delay 119}}] ; 
+                 ;---
+                 [:spacebar [:alfred "play" "com.vdesabou.spotify.mini.player" "spotify:playlist:37i9dQZEVXcMHpP6EcIqNe"]] ; Discover Weekly - Nikita
+                 ;
+                 [:right_command [:alfred "play" "com.vdesabou.spotify.mini.player" "spotify:playlist:0ERn0U4qZIKC8Dy7RrMMsn"]] ; Likes
+                 [:right_option [:alfred "play" "com.vdesabou.spotify.mini.player" "spotify:playlist:2N82DnDsPGMnpJhN8sVFJu"]] ; Bliss
+                 ;------------------------------------------------------------------------------- ◄▲▼►
+                ]}
+
+        ;------------------------------------------------------------------------------------------------------- B
+        {:des "bkey (break)"
+         :rules [:b-mode
+                 [:i [:km "open: IINA"]]
+                ]}
+
+        ;------------------------------------------------------------------------------------------------------- N
+        {:des "nkey (Notes/Text/Task)"
+         :rules [:n-mode
+                 [:1 :!O1]
+                 [:2 :!O2]
+                 [:3 :!O3]
+                 [:4 :!O4]
+                 [:5 :!O5]
+                 [:6 :!O6]
+                 [:q [:alfred "search github" "nikivi.search.the.web"]]
+                 [:w [:km "open: Microsoft Word"]]
+                 [:e [[:km "open: Emacs --debug-int"] ["n,,e" 0]] ["n,,e" 1]] ; 
+                 [:e ["n,,e" 1] ["n,,e" 0] {:delayed {:invoked [[:km "open: Emacs"] ["n,,e" 0]] :canceled ["n,,e" 0]} ; 
+                                :params {:delay 119}}]
+                 ;[:e [:km "open: Emacs"]]
+                 [:e [:km "open: PDF Expert"]]
+                 [:r [:alfred "search reddit" "nikivi.search.the.web"]]
+                 [:t [:km "open: TextEdit"]]
+                 [:o [:km "open: Notes"]]
+                 [:a [:alfred "search shares" "nikivi.ask.create.share"]]
+                 [:s [[:km "open: Sublime Merge"] ["n,,s" 0]] ["n,,s" 1]] ; 
+                 [:s ["n,,s" 1] ["n,,s" 0] {:delayed {:invoked [[:km "open: Sublime Text"] ["n,,s" 0]] :canceled ["n,,s" 0]} ; 
+                                :params {:delay 119}}]
+                 [:d [:alfred "search stack overflow" "net.deanishe.alfred-stackoverflow"]]
+                 [:f [:km "open: FSNotes"]]
+                 [:g [:alfred "search godoc" "nikivi.search.the.web"]]
+                 [:h [:alfred "search hn" "nikivi.search.the.web"]]
+                 [:grave_accent_and_tilde [:alfred "search learn anything" "nikivi.learn.anything"]]
+                 [:z [:alfred "search lobsters" "nikivi.search.the.web"]]
+                 [:x [:alfred "search stack" "net.deanishe.alfred-stackoverflow"]]
+                 [:c [:alfred "search wiki" "nikivi.mind"]]
+                 [:v [:alfred "search links" "nikivi.mind"]]
+                 ;[:v [:alfred "search pinboard" "nikivi.search.the.web"]] ; TODO: topics/search/more?
+                 [:b [:alfred "search bookmarks" "net.deanishe.alfred.safari"]]
+                 [:spacebar [:alfred "search history" "net.deanishe.alfred.safari"]]
+                ]}
+
+        ;------------------------------------------------------------------------------------------------------- M
+        {:des "mkey (dash)"
+         :rules [:m-mode
+                 [:3 [:alfred "search alfred" "nikivi.utilities" "d3 "]]
+                 [:q [:alfred "search alfred" "nikivi.utilities" "tldr "]]
+                 [:w [:alfred "search alfred" "nikivi.utilities" "django "]]
+                 [:e [:alfred "search alfred" "nikivi.utilities" "html "]]
+                 [:r [:alfred "search alfred" "nikivi.utilities" "react "]]
+                 [:t [:alfred "search alfred" "nikivi.utilities" "ts "]]
+                 [:a [:alfred "search alfred" "nikivi.utilities" "man "]]
+                 [:d [:alfred "search alfred" "nikivi.utilities" "docker "]]
+                 [:f [:alfred "search alfred" "nikivi.utilities" "apple "]]
+                 [:s [:alfred "search alfred" "nikivi.utilities" "lodash "]]
+                 [:d [:alfred "search alfred" "nikivi.utilities" "node "]]
+                 [:g [:alfred "search alfred" "nikivi.utilities" "godoc "]]
+                 [:c [:alfred "search alfred" "nikivi.utilities" "css "]]
+                 [:v [:alfred "search alfred" "nikivi.utilities" "vim "]]
+                 [:b [:alfred "search alfred" "nikivi.utilities" "bash "]]
+                ]}
+
+        ;------------------------------------------------------------------------------------------------------- ,
+        {:des "commakey (words)"
+         :rules [:comma-mode
+                 ;------------------------------------------------------------------------------- esc
+                 ;------------------------------------------------------------------------------- ~
+                 [:u [:u :s :e :hyphen :p :a :c :k :a :g :e :spacebar]]
+                 ;------------------------------------------------------------------------------- tab
+                 [:q [:q :i :n :g :s :h :u :i :z :h :e :n :g :!S2 :o :u :t :l :o :o :k :period :c :o :m]] ; -> qingshuizheng@outlook.com
+                 ;------------------------------------------------------------------------------- left_shift
+                 [:z [:z :q :s :o :!S2 :o :u :t :l :o :o :k :period :c :o :m]]
+                 [:x [:x :c :l :i :e :n :t :period :i :n :f :o :return_or_enter]] ; -> xclient.info and enter
+                ]}
+        ;------------------------------------------------------------------------------------------------------- .
+        {:des "periodkey (1-3, q-u, caps, tab)"
+         :rules [:period-mode
+                 [:1 [:!Sc :l :o :s :e :spacebar :!S3]] ; -> Close #
+                 [:2 [:!Sr :e :f :spacebar :!S3]] ; -> Ref #
+                 [:3 [:!Sf :i :x :spacebar :!S3]] ; -> Fix #
+                 [:q [:!Sa :spacebar :slash :slash :spacebar]] ; -> // (on same line)
+                 [:w [:km "VSCode/XCode/Sublime comment on top of line"]]
+                 [:e [:!St :!So :!Sd :!So :!Ssemicolon :spacebar]] ; -> TODO:
+                 [:r [:km "VSCode/XCode/Sublime comment on top of line with TODO"]]                  
+                 [:t [:!Sn :!So :!St :!Se :!Ssemicolon :spacebar]] ; -> NOTE:
+                 [:y [:p :l :e :a :s :e :spacebar]] ; -> please
+                 [:u [:u :p :d :a :t :e :spacebar]] ; -> update
+                 [:caps_lock [:!Cf :!St :!So :!Sd :!So :!Ssemicolon :return_or_enter]] ; -> search TODO: in file
+                 [:grave_accent_and_tilde [:!CSf :!St :!So :!Sd :!So :!Ssemicolon :return_or_enter]] ; -> search TODO: globally
+                 [:left_gui [:!St :h :a :n :k :s :spacebar]] ; -> Thanks
+                 [:spacebar [:!St :h :a :n :k :spacebar :y :o :u :period :spacebar]]
+                ]}
+
+        ;------------------------------------------------------------------------------------------------------- Slash
+        #_{:des "slashkey (left_shift)"
+         :rules [:slash-mode
+                 ;;------------------------------------------------------------------------------------------------------ESC
+                 [:escape :!Sescape]
+                 ;
+                 [:f1 :!Sf1]
+                 [:f2 :!Sf2]
+                 [:f3 :!Sf3]
+                 [:f4 :!Sf4]
+                 [:f5 :!Sf5]
+                 ;--
+                 [:f6 :!Sf6]
+                 [:f7 :!Sf7]
+                 [:f8 :!Sf8]
+                 [:f9 :!Sf9]
+                 [:f10 :!Sf10]
+                 [:f11 :!Sf11]
+                 [:f12 :!Sf12]
+                 ;;------------------------------------------------------------------------------------------------------111
+                 [:grave_accent_and_tilde :!Sgrave_accent_and_tilde]
+                 ;
+                 [:1 :1]
+                 [:2 :2]
+                 [:3 :3]
+                 [:4 :4]
+                 [:5 :5]
+                 ;---
+                 [:6 :6]
+                 [:7 :7]
+                 [:8 :8]
+                 [:9 :9]
+                 [:0 :0]
+                 ;
+                 [:hyphen :!Shyphen]
+                 [:equal_sign :!Sequal_sign]
+                 ;
+                 [:delete_or_backspace :!Sdelete_or_backspace]
+                 ;;------------------------------------------------------------------------------------------------------QQQ
+                 [:tab :!Stab]
+                 ;
+                 [:q :!Sq]
+                 [:w :!Sw]
+                 [:e :!Se]
+                 [:r :!Sr]
+                 [:t :!St]
+                 ;---
+                 [:y :!Sy]
+                 [:u :!Su]
+                 [:i :!Si]
+                 [:o :!So]
+                 [:p :!Sp]
+                 ;
+                 [:open_bracket :!Sopen_bracket]
+                 [:close_bracket :!Sclose_bracket]
+                 ;
+                 [:backslash :!Sbackslash]
+                 ;;------------------------------------------------------------------------------------------------------AAA
+                 [:caps_lock :!Scaps_lock]
+                 ;
+                 [:a :!Sa]
+                 [:s :!Ss]
+                 [:d :!Sd]
+                 [:f :!Sf]
+                 [:g :!Sg]
+                 ;---
+                 [:h :!Sh]
+                 [:j :!Sj]
+                 [:k :!Sk]
+                 [:l :!Sl]
+                 [:semicolon :!Ssemicolon]
+                 [:quote :!Squote]
+                 ;
+                 [:return_or_enter :!Sreturn_or_enter]
+                 ;;------------------------------------------------------------------------------------------------------ZZZ
+                 [:left_shift :!Sf13]
+                 ;
+                 [:z :!Sz]
+                 [:x :!Sx]
+                 [:c :!Sc]
+                 [:v :!Sv]
+                 [:b :!Sb]
+                 ;---
+                 [:n :!Sn]
+                 [:m :!Sm]
+                 ;
+                 [:comma :!Scomma]
+                 [:period :!Speriod]
+                 ;[:slash :!Sslash]
+                 ;
+                 [:right_shift :!Sf20]
+                 ;;------------------------------------------------------------------------------------------------------SPC
+                 [:fn :!Sf14]
+                 ;
+                 [:left_control :!Sf15]
+                 [:left_option :!Sf16]
+                 [:left_command :!Sf17]
+                 ;---
+                 [:spacebar :!Sspacebar]
+                 ;---
+                 [:right_command :!Sf18]
+                 [:right_option :!Sf19]
+                 ;;------------------------------------------------------------------------------------------------------◄▲▼►
+                 [:left_arrow :!Sleft_arrow]
+                 [:right_arrow :!Sright_arrow]
+                 [:up_arrow :!Sup_arrow]
+                 [:down_arrow :!Sdown_arrow]
+                ]}
+
+        ;------------------------------------------------------------------------------------------------------- Right_Shift
+        {:des "right_shiftkey (R)"
+         :rules [:right_shift-mode
+                 ;------------------------------------------------------------------------------- esc
+                 [:escape :!Rescape]
+                 ;
+                 [:f1 :!Rf1]
+                 [:f2 :!Rf2]
+                 [:f3 :!Rf3]
+                 [:f4 :!Rf4]
+                 [:f5 :!Rf5]
+                 ;---
+                 [:f6 :!Rf6]
+                 [:f7 :!Rf7]
+                 [:f8 :!Rf8]
+                 [:f9 :!Rf9]
+                 [:f10 :!Rf10]
+                 [:f11 :!Rf11]
+                 [:f12 :!Rf12]
+                 ;------------------------------------------------------------------------------- ~
+                 [:grave_accent_and_tilde :!Rgrave_accent_and_tilde]
+                 ;
+                 [:1 :!R1]
+                 [:2 :!R2]
+                 [:3 :!R3]
+                 [:4 :!R4]
+                 [:5 :!R5]
+                 ;---
+                 [:6 :!R6]
+                 [:7 :!R7]
+                 [:8 :!R8]
+                 [:9 :!R9]
+                 [:0 :!R0]
+                 ;
+                 [:hyphen :!Rhyphen]
+                 [:equal_sign :!Requal_sign]
+                 ;
+                 [:delete_or_backspace :!Rdelete_or_backspace]
+                 ;------------------------------------------------------------------------------- tab
+                 [:tab :!Rtab]
+                 ;
+                 [:q :!Rq]
+                 [:w :!Rw]
+                 [:e :!Re]
+                 [:r :!Rr]
+                 [:t :!Rt]
+                 ;---
+                 [:y :!Ry]
+                 [:u :!Ru]
+                 [:i :!Ri]
+                 [:o :!Ro]
+                 [:p :!Rp]
+                 ;
+                 [:open_bracket :!Ropen_bracket]
+                 [:close_bracket :!Rclose_bracket]
+                 ;
+                 [:backslash :!Rbackslash]
+                 ;------------------------------------------------------------------------------- caps
+                 [:caps_lock :!Rcaps_lock]
+                 ;
+                 [:a :!Ra]
+                 [:s :!Rs]
+                 [:d :!Rd]
+                 [:f :!Rf]
+                 [:g :!Rg]
+                 ;---
+                 ;[:h :!Rh]
+                 [:j :!Rj]
+                 [:k :!Rk]
+                 [:l :!Rl]
+                 ;
+                 [:semicolon :!Rsemicolon]
+                 [:quote :!Rquote]
+                 ;
+                 [:return_or_enter :!Rreturn_or_enter]
+                 ;------------------------------------------------------------------------------- shift
+                 [:left_shift :!Rf13]
+                 ;
+                 [:z :!Rz]
+                 [:x :!Rx]
+                 [:c :!Rc]
+                 [:v :!Rv]
+                 [:b :!Rb]
+                 ;---
+                 [:n :!Rn]
+                 [:m :!Rm]
+                 ;
+                 ;[:comma :!Rcomma]
+                 [:comma [[:km "placeholder2"] ["right_shift,,comma" 0]] ["right_shift,,comma" 1]] ; 
+                 [:comma ["right_shift,,comma" 1] ["right_shift,,comma" 0] {:delayed {:invoked [[:km "spotify_mini: display: show_recent_tracks"] ["right_shift,,comma" 0]] :canceled ["right_shift,,comma" 0]} ; 
+                                :params {:delay 500}}]                 
+                 ; [:period :!Rperiod]
+                 [:period [[:km "placeholder2"] ["right_shift,,period" 0]] ["right_shift,,period" 1]] ; 
+                 [:period ["right_shift,,period" 1] ["right_shift,,period" 0] {:delayed {:invoked [[:alfred "repeating_current_track" "com.vdesabou.spotify.mini.player"] ["right_shift,,period" 0]] :canceled ["right_shift,,period" 0]} ; 
+                                :params {:delay 119}}]                 
+                 ;[:slash :!Rslash]
+                 [:slash [:!QWEslash ["right_shift,,slash" 0]] ["right_shift,,slash" 1]] ; 
+                 [:slash ["right_shift,,slash" 1] ["right_shift,,slash" 0] {:delayed {:invoked [[:alfred "random_track" "com.vdesabou.spotify.mini.player"] ["right_shift,,slash" 0]] :canceled ["right_shift,,slash" 0]} ; 
+                                :params {:delay 119}}]
+                 ;
+                 ;[:right_shift :!Rf20]
+                 ;------------------------------------------------------------------------------- spc
+                 [:fn :!Rf14]
+                 ;
+                 [:left_control :!Rf15]
+                 [:left_option :!Rf16]
+                 [:left_command :!Rf17]
+                 ;---
+                 [:spacebar :!Rspacebar]
+                 ;---
+                 [:right_command :!Rf18]
+                 [:right_option :!Rf19]
+                 ;------------------------------------------------------------------------------- ◄▲▼►
+                 [:left_arrow :!Rleft_arrow]
+                 [:right_arrow :!Rright_arrow]
+                 [:up_arrow :!Rup_arrow]
+                 [:down_arrow :!Rdown_arrow]
+                ]}
+
+
+;;Fn -------------------------------------------------------------------------------------------------------------------------- Fn
+        ;------------------------------------------------------------------------------------------------------- fn
+
+        ;------------------------------------------------------------------------------------------------------- left_control
+        {:des "left_controlkey (T)"
+         :rules [:left_control-mode
+                 ;------------------------------------------------------------------------------- esc
+                 [:escape :!Tescape]
+                 ;
+                 [:f1 :!Tf1]
+                 [:f2 :!Tf2]
+                 [:f3 :!Tf3]
+                 [:f4 :!Tf4]
+                 [:f5 :!Tf5]
+                 ;---
+                 [:f6 :!Tf6]
+                 [:f7 :!Tf7]
+                 [:f8 :!Tf8]
+                 [:f9 :!Tf9]
+                 [:f10 :!Tf10]
+                 [:f11 :!Tf11]
+                 [:f12 :!Tf12]
+                 ;------------------------------------------------------------------------------- ~
+                 [:grave_accent_and_tilde :!Tgrave_accent_and_tilde]
+                 ;
+                 [:1 :!T1]
+                 [:2 :!T2]
+                 [:3 :!T3]
+                 [:4 :!T4]
+                 [:5 :!T5]
+                 ;---
+                 [:6 :!T6]
+                 [:7 :!T7]
+                 [:8 :!T8]
+                 [:9 :!T9]
+                 [:0 :!T0]
+                 ;
+                 [:hyphen :!Thyphen]
+                 [:equal_sign :!Tequal_sign]
+                 ;
+                 [:delete_or_backspace :!Tdelete_or_backspace]
+                 ;------------------------------------------------------------------------------- tab
+                 [:tab :!Ttab]
+                 ;
+                 [:q :!Tq]
+                 [:w :!Tw]
+                 [:e :!Te]
+                 [:r :!Tr]
+                 [:t :!Tt]
+                 ;---
+                 [:y :!Ty]
+                 [:u :!Tu]
+                 [:i :!Ti]
+                 [:o :!To]
+                 [:p :!Tp]
+                 ;
+                 [:open_bracket :!Topen_bracket]
+                 [:close_bracket :!Tclose_bracket]
+                 ;
+                 [:backslash :!Tbackslash]
+                 ;------------------------------------------------------------------------------- caps_lock
+                 [:caps_lock :!Tcaps_lock]
+                 ;
+                 [:a :!Ta]
+                 [:s :!Ts]
+                 [:d :!Td]
+                 [:f :!Tf]
+                 [:g :!Tg]
+                 ;---
+                 [:h :!Th]
+                 [:j :!Tj]
+                 [:k :!Tk]
+                 [:l :!Tl]
+                 ;
+                 [:semicolon :!Tsemicolon]
+                 [:quote :!Tquote]
+                 ;
+                 [:return_or_enter :!Treturn_or_enter]
+                 ;------------------------------------------------------------------------------- shift
+                 [:left_shift :!Tf13]
+                 ;
+                 [:z :!Tz]
+                 [:x :!Tx]
+                 [:c :!Tc]
+                 [:v :!Tv]
+                 [:b :!Tb]
+                 ;---
+                 [:n :!Tn]
+                 [:m :!Tm]
+                 ;
+                 [:comma :!Tcomma]
+                 [:period :!Tperiod]
+                 [:slash :!Tslash]
+                 ;
+                 [:right_shift :!Tf20]
+                 ;------------------------------------------------------------------------------- spacebar
+                 [:fn :!Tf14]
+                 ;
+                 ;[:left_control :!Tf15]
+                 [:left_option :!Tf16]
+                 [:left_command :!Tf17]
+                 ;---
+                 [:spacebar :!Tspacebar]
+                 ;---
+                 [:right_command :!Tf18]
+                 [:right_option :!Tf19]
+                 ;------------------------------------------------------------------------------- ◄▲▼►
+                 [:left_arrow :!Tleft_arrow]
+                 [:right_arrow :!Tright_arrow]
+                 [:up_arrow :!Tup_arrow]
+                 [:down_arrow :!Tdown_arrow]
+                ]}
+
+        ;------------------------------------------------------------------------------------------------------- left_option
+        {:des "left_optionkey (O)"
+         :rules [:left_option-mode
+                 ;------------------------------------------------------------------------------- esc
+                 [:escape :!Oescape]
+                 ;
+                 [:f1 :!Of1]
+                 [:f2 :!Of2]
+                 [:f3 :!Of3]
+                 [:f4 :!Of4]
+                 [:f5 :!Of5]
+                 ;---
+                 [:f6 :!Of6]
+                 [:f7 :!Of7]
+                 [:f8 :!Of8]
+                 [:f9 :!Of9]
+                 [:f10 :!Of10]
+                 [:f11 :!Of11]
+                 [:f12 :!Of12]
+                 ;------------------------------------------------------------------------------- ~
+                 [:grave_accent_and_tilde :!Ograve_accent_and_tilde]
+                 ;
+                 [:1 :!O1]
+                 [:2 :!O2]
+                 [:3 :!O3]
+                 [:4 :!O4]
+                 [:5 :!O5]
+                 ;---
+                 [:6 :!O6]
+                 [:7 :!O7]
+                 [:8 :!O8]
+                 [:9 :!O9]
+                 [:0 :!O0]
+                 ;
+                 [:hyphen :!Ohyphen]
+                 [:equal_sign :!Oequal_sign]
+                 ;
+                 [:delete_or_backspace :!Odelete_or_backspace]
+                 ;------------------------------------------------------------------------------- tab
+                 [:tab :!Otab]
+                 ;
+                 [:q :!Oq]
+                 [:w :!Ow]
+                 [:e :!Oe]
+                 [:r :!Or]
+                 [:t :!Ot]
+                 ;---
+                 [:y :!Oy]
+                 [:u :!Ou]
+                 [:i :!Oi]
+                 [:o :!Oo]
+                 [:p :!Op]
+                 ;
+                 [:open_bracket :!Oopen_bracket]
+                 [:close_bracket :!Oclose_bracket]
+                 ;
+                 [:backslash :!Obackslash]
+                 ;------------------------------------------------------------------------------- caps_lock
+                 [:caps_lock :!Ocaps_lock]
+                 ;
+                 [:a :!Oa]
+                 [:s :!Os]
+                 [:d :!Od]
+                 [:f :!Of]
+                 [:g :!Og]
+                 ;---
+                 [:h :!Oh]
+                 [:j :!Oj]
+                 [:k :!Ok]
+                 [:l :!Ol]
+                 ;
+                 [:semicolon :!Osemicolon]
+                 [:quote :!Oquote]
+                 ;
+                 [:return_or_enter :!Oreturn_or_enter]
+                 ;------------------------------------------------------------------------------- shift
+                 [:left_shift :!Of13]
+                 ;
+                 [:z :!Oz]
+                 [:x :!Ox]
+                 [:c :!Oc]
+                 [:v :!Ov]
+                 [:b :!Ob]
+                 ;---
+                 [:n :!On]
+                 [:m [:km "open: Emacs (M-m)"] :!Emacs]
+                 [:m :!Om]
+                 ;
+                 [:comma :!Ocomma]
+                 [:period :!Operiod]
+                 [:slash :!Oslash]
+                 ;
+                 [:right_shift :!Of20]
+                 ;------------------------------------------------------------------------------- spacebar
+                 [:fn :!Of14]
+                 ;
+                 [:left_control :!Of15]
+                 ;[:left_option :!Of16]
+                 [:left_command :!Of17]
+                 ;---
+                 [:spacebar :!Ospacebar]
+                 ;---
+                 [:right_command :!Of18]
+                 [:right_option :!Of19]
+                 ;------------------------------------------------------------------------------- ◄▲▼►
+                 [:left_arrow :!Oleft_arrow]
+                 [:right_arrow :!Oright_arrow]
+                 [:up_arrow :!Oup_arrow]
+                 [:down_arrow :!Odown_arrow]
+                ]}
+        ;------------------------------------------------------------------------------------------------------- left_command
+        {:des "left_commandkey (C)"
+         :rules [:left_command-mode
+                 ;------------------------------------------------------------------------------- esc
+                 [:escape :!Cescape]
+                 ;
+                 [:f1 :!Cf1]
+                 [:f2 :!Cf2]
+                 [:f3 :!Cf3]
+                 [:f4 :!Cf4]
+                 [:f5 :!Cf5]
+                 ;---
+                 [:f6 :!Cf6]
+                 [:f7 :!Cf7]
+                 [:f8 :!Cf8]
+                 [:f9 :!Cf9]
+                 [:f10 :!Cf10]
+                 [:f11 :!Cf11]
+                 [:f12 :!Cf12]
+                 ;------------------------------------------------------------------------------- ~
+                 [:grave_accent_and_tilde :!Cgrave_accent_and_tilde]
+                 ;
+                 [:1 :!C1]
+                 [:2 :!C2]
+                 [:3 :!C3]
+                 [:4 :!C4]
+                 [:5 :!C5]
+                 ;---
+                 [:6 :!C6]
+                 [:7 :!C7]
+                 [:8 :!C8]
+                 [:9 :!C9]
+                 [:0 :!C0]
+                 ;
+                 [:hyphen :!Chyphen]
+                 [:equal_sign :!Cequal_sign]
+                 ;
+                 [:delete_or_backspace :!Cdelete_or_backspace]
+                 ;------------------------------------------------------------------------------- tab
+                 [:tab :!Ctab]
+                 ;
+                 [:q [[:km "Force quit front app except Emacs"] ["left_command,,q" 0]] ["left_command,,q" 1]]
+                 [:q ["left_command,,q" 1] ["left_command,,q" 0] {:delayed {:invoked [:!Cq ["left_command,,q" 0]] :canceled ["left_command,,q" 0]}
+                                        :params {:delay 119}}]
+                 [:w :!Cw]
+                 [:e :!Ce]
+                 [:r :!Cr]
+                 [:t :!Ct]
+                 ;---
+                 [:y :!Cy]
+                 [:u :!Cu]
+                 [:i :!Ci]
+                 [:o :!Co]
+                 [:p :!Cp]
+                 ;
+                 [:open_bracket :!Copen_bracket]
+                 [:close_bracket :!Cclose_bracket]
+                 ;
+                 [:backslash :!Cbackslash]
+                 ;------------------------------------------------------------------------------- caps_lock
+                 [:caps_lock :!Ccaps_lock]
+                 ;
+                 [:a :!Ca]
+                 [:s :!Cs]
+                 [:d :!Cd]
+                 [:f :!Cf]
+                 [:g :!Cg]
+                 ;---
+                 [:h :!Ch]
+                 [:j :!Cj]
+                 [:k :!Ck]
+                 [:l :!Cl]
+                 ;
+                 [:semicolon :!Csemicolon]
+                 [:quote :!Cquote]
+                 ;
+                 [:return_or_enter :!Creturn_or_enter]
+                 ;------------------------------------------------------------------------------- shift
+                 [:left_shift :!Cf13]
+                 ;
+                 [:z :!Cz]
+                 [:x :!Cx]
+                 [:c :!Cc]
+                 [:v :!Cv]
+                 [:b :!Cb]
+                 ;---
+                 [:n :!Cn]
+                 [:m :!Cm]
+                 ;
+                 [:comma :!Ccomma]
+                 [:period :!Cperiod]
+                 [:slash :!Cslash]
+                 ;
+                 [:right_shift :!Cf20]
+                 ;------------------------------------------------------------------------------- spacebar
+                 [:fn :!Cf14]
+                 ;
+                 [:left_control :!Cf15]
+                 [:left_option :!Cf16]
+                 ;[:left_command :!Cf17]
+                 ;---
+                 [:spacebar :!Cspacebar]
+                 ;---
+                 [:right_command :!Cf18]
+                 [:right_option :!Cf19]
+                 ;------------------------------------------------------------------------------- ◄▲▼►
+                 [:left_arrow :!Cleft_arrow]
+                 [:right_arrow :!Cright_arrow]
+                 [:up_arrow :!Cup_arrow]
+                 [:down_arrow :!Cdown_arrow]
+                ]}
+
+        ;------------------------------------------------------------------------------------------------------- spc
+        {:des "spacebarkey (websites)"
+         :rules [:spacebar-mode
+                 ;------------------------------------------------------------------------------- esc
+                 [:escape :!Qescape]
+                 ;
+                 [:f1 :!Qf1]
+                 [:f2 :!Qf2]
+                 [:f3 :!Qf3]
+                 [:f4 :!Qf4]
+                 [:f5 :!Qf5]
+                 ;---
+                 [:f6 :!Qf6]
+                 [:f7 :!Qf7]
+                 [:f8 :!Qf8]
+                 [:f9 :!Qf9]
+                 [:f10 :!Qf10]
+                 [:f11 :!Qf11]
+                 [:f12 :!Qf12]
+                 ;------------------------------------------------------------------------------- ~
+                 [:grave_accent_and_tilde :!Qgrave_accent_and_tilde]
+                 ;
+                 [:1 :!Q1]
+                 [:2 :!Q2]
+                 [:3 :!Q3]
+                 [:4 :!Q4]
+                 [:5 :!Q5]
+                 ;---
+                 [:6 :!Q6]
+                 [:7 :!Q7]
+                 [:8 :!Q8]
+                 [:9 :!Q9]
+                 [:0 :!Q0]
+                 ;
+                 [:hyphen :!Qhyphen]
+                 [:equal_sign :!Qequal_sign]
+                 ;
+                 [:delete_or_backspace :!Qdelete_or_backspace]
+                 ;------------------------------------------------------------------------------- tab
+                 [:tab :!Qtab]
+                 ;
+                 [:q :!Qq]
+                 [:w :!Qw]
+                 [:e :!Qe]
+                 [:r :!Qr]
+                 [:t :!Qt]
+                 ;---
+                 [:y :!Qy]
+                 [:u :!Qu]
+                 [:i :!Qi]
+                 [:o :!Qo]
+                 [:p :!Qp]
+                 ;
+                 [:open_bracket :!Qopen_bracket]
+                 [:close_bracket :!Qclose_bracket]
+                 ;
+                 [:backslash :!Qbackslash]
+                 ;------------------------------------------------------------------------------- caps_lock
+                 [:caps_lock :!Qcaps_lock]
+                 ;
+                 [:a :!Qa]
+                 [:s :!Qs]
+                 [:d :!Qd]
+                 [:f :!Qf]
+                 [:g :!Qg]
+                 ;---
+                 [:h :!Qh]
+                 [:j :!Qj]
+                 [:k :!Qk]
+                 [:l :!Ql]
+                 ;
+                 [:semicolon :!Qsemicolon]
+                 [:quote :!Qquote]
+                 ;
+                 [:return_or_enter :!Qreturn_or_enter]
+                 ;------------------------------------------------------------------------------- shift
+                 [:left_shift :!Qf13]
+                 ;
+                 [:z :!Qz]
+                 [:x :!Qx]
+                 [:c :!Qc]
+                 [:v :!Qv]
+                 [:b :!Qb]
+                 ;---
+                 [:n :!Qn]
+                 [:m :!Qm]
+                 ;
+                 [:comma :!Qcomma]
+                 [:period :!Qperiod]
+                 [:slash :!Qslash]
+                 ;
+                 [:right_shift :!Qf20]
+                 ;------------------------------------------------------------------------------- spacebar
+                 [:fn :!Qf14]
+                 ;
+                 [:left_control :!Qf15]
+                 [:left_option :!Qf16]
+                 [:left_command :!Qf17]
+                 ;---
+                 ;[:spacebar :!Qspacebar]
+                 ;---
+                 [:right_command [:km "YG/MW/UD/Forvo - with clipboard"]]
+                 [:right_option :!Qf19]
+                 ;------------------------------------------------------------------------------- ◄▲▼►
+                 [:left_arrow :!Qleft_arrow]
+                 [:right_arrow :!Qright_arrow]
+                 [:up_arrow :!Qup_arrow]
+                 [:down_arrow :!Qdown_arrow]
+                ]}
+
+        ;------------------------------------------------------------------------------------------------------- Right_Command
+        {:des "right_commandkey (Q)"
+         :rules [:right_command-mode
+                 ;------------------------------------------------------------------------------- esc
+                 [:escape :!Qescape]
+                 ;
+                 [:f1 :!Qf1]
+                 [:f2 :!Qf2]
+                 [:f3 :!Qf3]
+                 [:f4 :!Qf4]
+                 [:f5 :!Qf5]
+                 ;---
+                 [:f6 :!Qf6]
+                 [:f7 :!Qf7]
+                 [:f8 :!Qf8]
+                 [:f9 :!Qf9]
+                 [:f10 :!Qf10]
+                 [:f11 :!Qf11]
+                 [:f12 :!Qf12]
+                 ;------------------------------------------------------------------------------- ~
+                 [:grave_accent_and_tilde :!Qgrave_accent_and_tilde]
+                 ;
+                 [:1 :!Q1]
+                 [:2 :!Q2]
+                 [:3 :!Q3]
+                 [:4 :!Q4]
+                 [:5 :!Q5]
+                 ;---
+                 [:6 :!Q6]
+                 [:7 :!Q7]
+                 [:8 :!Q8]
+                 [:9 :!Q9]
+                 [:0 :!Q0]
+                 ;
+                 [:hyphen :!Qhyphen]
+                 [:equal_sign :!Qequal_sign]
+                 ;
+                 [:delete_or_backspace :!Qdelete_or_backspace]
+                 ;------------------------------------------------------------------------------- tab
+                 [:tab :!Qtab]
+                 ;
+                 [:q :!Qq]
+                 [:w :!Qw]
+                 [:e :!Qe]
+                 [:r :!Qr]
+                 [:t :!Qt]
+                 ;---
+                 [:y :!Qy]
+                 [:u :!Qu]
+                 [:i :!Qi]
+                 [:o :!Qo]
+                 [:p :!Qp]
+                 ;
+                 [:open_bracket :!Qopen_bracket]
+                 [:close_bracket :!Qclose_bracket]
+                 ;
+                 [:backslash :!Qbackslash]
+                 ;------------------------------------------------------------------------------- caps_lock
+                 [:caps_lock :!Qcaps_lock]
+                 ;
+                 [:a :!Qa]
+                 [:s :!Qs]
+                 [:d :!Qd]
+                 [:f :!Qf]
+                 [:g :!Qg]
+                 ;---
+                 [:h :!Qh]
+                 [:j :!Qj]
+                 [:k :!Qk]
+                 [:l :!Ql]
+                 ;
+                 [:semicolon :!Qsemicolon]
+                 [:quote :!Qquote]
+                 ;
+                 [:return_or_enter :!Qreturn_or_enter]
+                 ;------------------------------------------------------------------------------- shift
+                 [:left_shift :!Qf13]
+                 ;
+                 [:z :!Qz]
+                 [:x :!Qx]
+                 [:c :!Qc]
+                 [:v :!Qv]
+                 [:b :!Qb]
+                 ;---
+                 [:n :!Qn]
+                 [:m :!Qm]
+                 ;
+                 [:comma :!Qcomma]
+                 [:period :!Qperiod]
+                 [:slash :!Qslash]
+                 ;
+                 [:right_shift :!Qf20]
+                 ;------------------------------------------------------------------------------- spacebar
+                 [:fn :!Qf14]
+                 ;
+                 [:left_control :!Qf15]
+                 [:left_option :!Qf16]
+                 [:left_command :!Qf17]
+                 ;---
+                 [:spacebar :!Qspacebar]
+                 ;---
+                 ;[:right_command :!Qf18]
+                 [:right_option :!Qf19]
+                 ;------------------------------------------------------------------------------- ◄▲▼►
+                 [:left_arrow :!Qleft_arrow]
+                 [:right_arrow :!Qright_arrow]
+                 [:up_arrow :!Qup_arrow]
+                 [:down_arrow :!Qdown_arrow]
+                ]}
+
+        ;------------------------------------------------------------------------------------------------------- Right_Option
+        {:des "right_optionkey (E)"
+         :rules [:right_option-mode
+                 ;------------------------------------------------------------------------------- esc
+                 [:escape :!Eescape]
+                 ;
+                 [:f1 :!Ef1]
+                 [:f2 :!Ef2]
+                 [:f3 :!Ef3]
+                 [:f4 :!Ef4]
+                 [:f5 :!Ef5]
+                 ;---
+                 [:f6 :!Ef6]
+                 [:f7 :!Ef7]
+                 [:f8 :!Ef8]
+                 [:f9 :!Ef9]
+                 [:f10 :!Ef10]
+                 [:f11 :!Ef11]
+                 [:f12 :!Ef12]
+                 ;------------------------------------------------------------------------------- ~
+                 [:grave_accent_and_tilde :!Egrave_accent_and_tilde]
+                 ;
+                 [:1 :!E1]
+                 [:2 :!E2]
+                 [:3 :!E3]
+                 [:4 :!E4]
+                 [:5 :!E5]
+                 ;---
+                 [:6 :!E6]
+                 [:7 :!E7]
+                 [:8 :!E8]
+                 [:9 :!E9]
+                 [:0 :!E0]
+                 ;
+                 [:hyphen :!Ehyphen]
+                 [:equal_sign :!Eequal_sign]
+                 ;
+                 [:delete_or_backspace :!Edelete_or_backspace]
+                 ;------------------------------------------------------------------------------- tab
+                 [:tab :!Etab]
+                 ;
+                 [:q :!Eq]
+                 [:w :!Ew]
+                 [:e :!Ee]
+                 [:r :!Er]
+                 [:t :!Et]
+                 ;---
+                 [:y :!Ey]
+                 [:u :!Eu]
+                 [:i :!Ei]
+                 [:o :!Eo]
+                 [:p :!Ep]
+                 ;
+                 [:open_bracket :!Eopen_bracket]
+                 [:close_bracket :!Eclose_bracket]
+                 ;
+                 [:backslash :!Ebackslash]
+                 ;------------------------------------------------------------------------------- caps_lock
+                 [:caps_lock :!Ecaps_lock]
+                 ;
+                 [:a :!Ea]
+                 [:s :!Es]
+                 [:d :!Ed]
+                 [:f :!Ef]
+                 [:g :!Eg]
+                 ;---
+                 [:h :!Eh]
+                 [:j :!Ej]
+                 [:k :!Ek]
+                 [:l :!El]
+                 ;
+                 [:semicolon :!Esemicolon]
+                 [:quote :!Equote]
+                 ;
+                 [:return_or_enter :!Ereturn_or_enter]
+                 ;------------------------------------------------------------------------------- shift
+                 [:left_shift :!Ef13]
+                 ;
+                 [:z :!Ez]
+                 [:x :!Ex]
+                 [:c :!Ec]
+                 [:v :!Ev]
+                 [:b :!Eb]
+                 ;---
+                 [:n :!En]
+                 [:m :!Em]
+                 ;
+                 [:comma :!Ecomma]
+                 [:period :!Eperiod]
+                 [:slash :!Eslash]
+                 ;
+                 [:right_shift :!Ef20]
+                 ;------------------------------------------------------------------------------- spacebar
+                 [:fn :!Ef14]
+                 ;
+                 [:left_control :!Ef15]
+                 [:left_option :!Ef16]
+                 [:left_command :!Ef17]
+                 ;---
+                 [:spacebar :!Espacebar]
+                 ;---
+                 [:right_command :!Ef18]
+                 ;[:right_option :!Ef19]
+                 ;------------------------------------------------------------------------------- ◄▲▼►
+                 [:left_arrow :!Eleft_arrow]
+                 [:right_arrow :!Eright_arrow]
+                 [:up_arrow :!Eup_arrow]
+                 [:down_arrow :!Edown_arrow]
+                ]}
+
+;◄▲▼► ------------------------------------------------------------------------------------------------------------------------- ◄▲▼►
+        ;------------------------------------------------------------------------------------------------------- left_arrow
+        ;------------------------------------------------------------------------------------------------------- right_arrow
+        ;------------------------------------------------------------------------------------------------------- up_arrow
+        ;------------------------------------------------------------------------------------------------------- down_arrow
+
+;Pad -------------------------------------------------------------------------------------------------------------------------- Pad
+								; dotfiles/karabiner.edn at master · narze/dotfiles - https://github.com/narze/dotfiles/blob/master/etc/karabiner.edn#L150
+        ; ThumbSense (rev 3) https://pqrs.org/osx/karabiner/complex_modifications/#thumbsense
+        {:des "ThumbSense Mode" 
+         :rules [
+                 ;clipboard
+                 ;[:z :!Cz ["multitouch_extension_finger_count_total" 1]]
+                 ;[:x :!Cx ["multitouch_extension_finger_count_total" 1]]
+                 ;[:c :!Cc ["multitouch_extension_finger_count_total" 1]]
+                 ;[:v :!Cv ["multitouch_extension_finger_count_total" 1]]
+                 [:x [:km "Cut to Clipboard 1"] [["multitouch_extension_finger_count_total" 1]["multitouch_extension_finger_count_left_half_area" 1]["multitouch_extension_finger_count_upper_half_area" 1]]]
+                 ;[:x [:km "Cut to Clipboard 2"] [["multitouch_extension_finger_count_total" 1]["multitouch_extension_finger_count_right_half_area" 1]["multitouch_extension_finger_count_upper_half_area" 1]]]
+                 [:x :!Cx [["multitouch_extension_finger_count_total" 1]["multitouch_extension_finger_count_right_half_area" 1]["multitouch_extension_finger_count_upper_half_area" 1]]]
+                 [:x [:km "Cut to Clipboard 3"] [["multitouch_extension_finger_count_total" 1]["multitouch_extension_finger_count_left_half_area" 1]["multitouch_extension_finger_count_lower_half_area" 1]]]
+                 [:x [:km "Cut to Clipboard 4"] [["multitouch_extension_finger_count_total" 1]["multitouch_extension_finger_count_right_half_area" 1]["multitouch_extension_finger_count_lower_half_area" 1]]]
+                 ;
+                 [:c [:km "Copy to Clipboard 1"] [["multitouch_extension_finger_count_total" 1]["multitouch_extension_finger_count_left_half_area" 1]["multitouch_extension_finger_count_upper_half_area" 1]]]
+                 ;[:c [:km "Copy to Clipboard 2"] [["multitouch_extension_finger_count_total" 1]["multitouch_extension_finger_count_right_half_area" 1]["multitouch_extension_finger_count_upper_half_area" 1]]]
+                 [:c :!Cc [["multitouch_extension_finger_count_total" 1]["multitouch_extension_finger_count_right_half_area" 1]["multitouch_extension_finger_count_upper_half_area" 1]]]
+                 [:c [:km "Copy to Clipboard 3"] [["multitouch_extension_finger_count_total" 1]["multitouch_extension_finger_count_left_half_area" 1]["multitouch_extension_finger_count_lower_half_area" 1]]]
+                 [:c [:km "Copy to Clipboard 4"] [["multitouch_extension_finger_count_total" 1]["multitouch_extension_finger_count_right_half_area" 1]["multitouch_extension_finger_count_lower_half_area" 1]]]
+                 ;
+                 [:v [:km "Paste from Clipboard 1"] [["multitouch_extension_finger_count_total" 1]["multitouch_extension_finger_count_left_half_area" 1]["multitouch_extension_finger_count_upper_half_area" 1]]]
+                 ;[:v [:km "Paste from Clipboard 2"] [["multitouch_extension_finger_count_total" 1]["multitouch_extension_finger_count_right_half_area" 1]["multitouch_extension_finger_count_upper_half_area" 1]]]
+                 [:v :!Cv [["multitouch_extension_finger_count_total" 1]["multitouch_extension_finger_count_right_half_area" 1]["multitouch_extension_finger_count_upper_half_area" 1]]]
+                 [:v [:km "Paste from Clipboard 3"] [["multitouch_extension_finger_count_total" 1]["multitouch_extension_finger_count_left_half_area" 1]["multitouch_extension_finger_count_lower_half_area" 1]]]
+                 [:v [:km "Paste from Clipboard 4"] [["multitouch_extension_finger_count_total" 1]["multitouch_extension_finger_count_right_half_area" 1]["multitouch_extension_finger_count_lower_half_area" 1]]]
+
+                 ;mouse clicks
+                 [:f {:pkey :button1} ["multitouch_extension_finger_count_total" 1]]
+                 [:j {:pkey :button1} ["multitouch_extension_finger_count_total" 1]]
+                 [:l [:km "Merriam-Webster - 取词窗口查词 - with no clipboard"] ["multitouch_extension_finger_count_total" 1]]
+                 [:spacebar {:pkey :button1} ["multitouch_extension_finger_count_total" 1]]
+                 ;
+                 [:d {:pkey :button2} ["multitouch_extension_finger_count_total" 1]]
+                 [:k {:pkey :button2} ["multitouch_extension_finger_count_total" 1]]
+
+                 ;command []
+                 [:g :!Copen_bracket ["multitouch_extension_finger_count_total" 1]]
+                 [:h :!Cclose_bracket ["multitouch_extension_finger_count_total" 1]]
+                 ;
+                 ;close window
+                 [:w :!Cw ["multitouch_extension_finger_count_total" 1]]
+                 [:z :!Cz ["multitouch_extension_finger_count_total" 1]]
+                ]}
+
+
+;Hold Keys -------------------------------------------------------------------------------------------------------------------- Hold Keys
+        {:des "hold keys"
+         :rules [
+                 [:##escape nil nil {:alone :escape :held {:key :!COescape :repeat false :halt true} :params {:alone 119 :held 999 }}]
+                 [:##f1 nil nil {:alone :f1 :held {:key :display_brightness_decrement :repeat true :halt true} :params {:alone 100 :held 100 }}]
+                 [:##f2 nil nil {:alone :f2 :held {:key :display_brightness_increment :repeat true :halt true} :params {:alone 100 :held 100 }}]
+                 [:##f3 nil nil {:alone :f3 :held {:key :mission_control :repeat false :halt true} :params {:alone 100 :held 100 }}]
+                 [:##f4 nil nil {:alone :f4 :held {:key :launchpad :repeat false :halt true} :params {:alone 100 :held 100 }}]
+                 [:##f5 nil nil {:alone :f5 :held {:key :illumination_decrement :repeat true :halt true} :params {:alone 100 :held 100 }}]
+                 [:##f6 nil nil {:alone :f6 :held {:key :illumination_increment :repeat true :halt true} :params {:alone 100 :held 100 }}]
+                 [:##f7 nil nil {:alone :f7 :held {:key :rewind :repeat false :halt true} :params {:alone 100 :held 100 }}]
+                 [:##f8 nil nil {:alone :f8 :held {:key :play_or_pause :repeat false :halt true} :params {:alone 100 :held 100 }}]
+                 [:##f9 nil nil {:alone :f9 :held {:key :fastforward :repeat false :halt true} :params {:alone 100 :held 100 }}]
+                 [:##f10 nil nil {:alone :f10 :held {:key :mute :repeat false :halt true} :params {:alone 100 :held 100 }}]
+                 [:##f11 nil nil {:alone :f11 :held {:key :volume_decrement :repeat true :halt true} :params {:alone 100 :held 100 }}]
+                 [:##f12 nil nil {:alone :f12 :held {:key :volume_increment :repeat true :halt true} :params {:alone 100 :held 100 }}]
+
+                 [:grave_accent_and_tilde nil nil {:alone :grave_accent_and_tilde :held {:key :!Sgrave_accent_and_tilde :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 ; [:1 nil nil {:alone :1 :held {:key :!S1 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 ; [:2 nil nil {:alone :2 :held {:key :!S2 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 ; [:3 nil nil {:alone :3 :held {:key :!S3 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 ; [:4 nil nil {:alone :4 :held {:key :!S4 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 ; [:5 nil nil {:alone :5 :held {:key :!S5 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 ; [:6 nil nil {:alone :6 :held {:key :!S6 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 ; [:7 nil nil {:alone :7 :held {:key :!S7 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 ; [:8 nil nil {:alone :8 :held {:key :!S8 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 ; [:9 nil nil {:alone :9 :held {:key :!S9 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 ; [:0 nil nil {:alone :0 :held {:key :!S0 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 [:1 nil nil {:alone :!S1 :held {:key :1 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 [:2 nil nil {:alone :!S2 :held {:key :2 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 [:3 nil nil {:alone :!S3 :held {:key :3 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 [:4 nil nil {:alone :!S4 :held {:key :4 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 [:5 nil nil {:alone :!S5 :held {:key :5 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 [:6 nil nil {:alone :!S6 :held {:key :6 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 [:7 nil nil {:alone :!S7 :held {:key :7 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 [:8 nil nil {:alone :!S8 :held {:key :8 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 [:9 nil nil {:alone :!S9 :held {:key :9 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 [:0 nil nil {:alone :!S0 :held {:key :0 :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 [:hyphen nil nil {:alone :hyphen :held {:key :!Shyphen :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 [:equal_sign nil nil {:alone :equal_sign :held {:key :!Sequal_sign :repeat false :halt true} :params {:alone 100 :held 100}}]
+
+                 [:tab nil nil {:alone :tab :held {:key :!Cleft_option :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:open_bracket nil nil {:alone :open_bracket :held {:key :!Sopen_bracket :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:close_bracket nil nil {:alone :close_bracket :held {:key :!Sclose_bracket :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:backslash nil nil {:alone :backslash :held {:key :!Sbackslash :repeat false :halt true} :params {:alone 100 :held 100}}]
+
+                 [:caps_lock nil ["multitouch_extension_finger_count_total" 0] {:alone :escape :held {:key :!Cleft_control :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:caps_lock nil ["multitouch_extension_finger_count_total" 1] {:alone :escape :held {:key :caps_lock :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:semicolon nil nil {:alone :!Ssemicolon :held {:key :semicolon :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:quote nil nil {:alone :quote :held {:key :!Squote :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 ;
+
+                 [:##left_shift nil ["multitouch_extension_finger_count_total" 0] {:alone :f13 :held {:key :!Tleft_option :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:##left_shift nil ["multitouch_extension_finger_count_total" 1] {:alone :f13 :held {:key :left_shift :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:comma nil nil {:alone :comma :held {:key :!Scomma :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 [:period nil nil {:alone :period :held {:key :!Speriod :repeat false :halt true} :params {:alone 100 :held 100}}]
+                 [:slash nil nil {:alone :slash :held {:key :!QEright_shift :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:##right_shift nil ["multitouch_extension_finger_count_total" 0] {:alone :f20 :held {:key :!QWright_option :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:##right_shift nil ["multitouch_extension_finger_count_total" 1] {:alone :f20 :held {:key :right_shift :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:fn nil nil {:alone :f14 :held {:key :!CTOleft_shift :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:##left_control nil ["multitouch_extension_finger_count_total" 0] {:alone :f15 :held {:key :!Tleft_shift :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:##left_control nil ["multitouch_extension_finger_count_total" 1] {:alone :f15 :held {:key :left_control :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:##left_option nil ["multitouch_extension_finger_count_total" 0] {:alone :f16 :held {:key :!Oleft_shift :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:##left_option nil ["multitouch_extension_finger_count_total" 1] {:alone :f16 :held {:key :left_option :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:##left_command nil ["multitouch_extension_finger_count_total" 0] {:alone :f17 :held {:key :!Cleft_shift :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:##left_command nil ["multitouch_extension_finger_count_total" 1] {:alone :f17 :held {:key :left_command :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:##right_command nil ["multitouch_extension_finger_count_total" 0] {:alone "/usr/local/bin/yabai -m window --focus stack.prev || /usr/local/bin/yabai -m window --focus stack.last" :held {:key :!WEright_shift :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 ;[:##right_command nil ["multitouch_extension_finger_count_total" 0] {:alone [:km "YG/MW/UD/Forvo - with no clipboard"] :held {:key :!WEright_shift :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:##right_command nil ["multitouch_extension_finger_count_total" 1] {:alone :!Ctab :held {:key :right_command :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:##right_option nil ["multitouch_extension_finger_count_total" 0] {:alone "/usr/local/bin/yabai -m window --focus stack.next || /usr/local/bin/yabai -m window --focus stack.first" :held {:key :!QWright_shift :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 ;[:##right_option nil ["multitouch_extension_finger_count_total" 0] {:alone [:km "YG/MW/UD/Forvo - with clipboard"] :held {:key :!QWright_shift :repeat true :halt true} :params {:alone 100 :held 100}}]
+                 [:##right_option nil ["multitouch_extension_finger_count_total" 1] {:alone :f19 :held {:key :right_option :repeat true :halt true} :params {:alone 100 :held 100}}]
+                ]}
+                
+        
+;MISC ------------------------------------------------------------------------------------------------------------------------- MISC
+        ;{:des "swap : and ;"
+        ; :rules [[:#Psemicolon :!Ssemicolon]
+        ;         [:!Ssemicolon :semicolon]]}
+
+        ;{:des "§ -> Karabiner on/off"
+        ; :rules [[:non_us_backslash [:km "Karabiner on/off"]]]}
+
+        {:des "jsim"
+         :rules [[[:j :k] :!Om] ;[:alfred "search google" "net.deanishe.alfred-searchio"]]
+                 [[:j :semicolon] [:alfred "search tabs" "net.deanishe.alfred.safari"]]
+                 ;[[:j :semicolon] :!COS9] ; Raycast
+                 [[:j :l] :!CTOSspacebar]]} ; Alfred
+
+        #_{:des "ksim"
+         :rules [[[:k :l] [:alfred "search dash" "com.kapeli.dash.workflow"]]
+                 [[:k :m] [:alfred "search youtube" "net.deanishe.alfred-searchio"]]]}
+
+
+] ; main
+
+;Applications ------------------------------------------------------------------------------------------------------------------ Applications
+
+ :applications 
+        {
+        	:Emacs	["^org\\.gnu\\.Emacs$"]
+         :Chromes  [
+         	"^com\\.google\\.Chrome$"
+         	"^org\\.chromium\\.Chromium$"
+         	"^com\\.google\\.Chrome\\.canary$"
+         	"^com\\.brave\\.Browser"]
+         :Firefoxes  [
+         	"^org\\.mozilla\\.firefox$"
+         	"^org\\.mozilla\\.firefoxdeveloperedition$"]
+         :Terminals  [
+          "^com\\.googlecode\\.iterm2$"
+         	"^com\\.apple\\.Terminal$"]
+         :Finder  [
+         	"^com\\.apple\\.finder$"]
+         :Browsers  [
+         	"^org\\.mozilla\\.firefox$"
+         	"^org\\.mozilla\\.firefoxdeveloperedition$"
+         	"^com\\.google\\.Chrome$"
+         	"^org\\.chromium\\.Chromium$"
+         	"^com\\.google\\.Chrome\\.canary$"
+         	"^com\\.brave\\.Browser"
+         	"^com\\.apple\\.Safari$"]
+         :Design [
+          "^com\\.adobe\\.Adobe-Animate-2020\\.application$"
+          "^com\\.adobe\\.Photoshop$"
+          "^com\\.adobe\\.illustrator$"]
+         :Photoshop [
+          "^com\\.adobe\\.Photoshop$"]
+         :KM [
+          "^com\\.stairways\\.keyboardmaestro\\.editor$"]
+         }
+
+
+
+;Cheat Sheet ------------------------------------------------------------------------------------------------------------------- Cheat Sheet
+
+;; !  | means mandatory
+;; #  | means optional
+;; C  | left_command
+;; Q  | right_command
+;; CC | command
+;; T  | left_control
+;; W  | right_control
+;; TT | control
+;; O  | left_option
+;; E  | right_option
+;; OO | option
+;; S  | left_shift
+;; R  | right_shift
+;; SS | shift
+;; F  | fn
+;; !! | hyper [:left_command :left_control :left_optional :left_shift ]
+;; !A | hyper [:command :control :optional :shift ]
+;; ## | optional any
+;;
+} ; profiles
