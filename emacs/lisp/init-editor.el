@@ -194,5 +194,15 @@
 
 
 
+(use-package paren
+  :straight nil
+  :hook ((prog-mode . show-paren-mode))
+  :init
+  (setq show-paren-style 'mixed)
+  (setq show-paren-when-point-in-periphery t)
+  (setq show-paren-when-point-inside-paren nil))
+
+
+
 (provide 'init-editor)
 ;;; init-editor.el ends here
