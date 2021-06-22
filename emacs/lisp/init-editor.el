@@ -212,5 +212,13 @@
 
 
 
+(use-package autorevert
+  :straight nil
+  :hook ((after-init . global-auto-revert-mode))
+  :init
+  (setq auto-revert-verbose t))
+
+
+
 (provide 'init-editor)
 ;;; init-editor.el ends here
