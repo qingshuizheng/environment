@@ -204,5 +204,13 @@
 
 
 
+(use-package eldoc
+  :straight nil
+  :hook (prog-mode . eldoc-mode)
+  :init
+  (setq eldoc-idle-delay 0))
+
+
+
 (provide 'init-editor)
 ;;; init-editor.el ends here
