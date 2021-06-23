@@ -205,5 +205,14 @@ the undo expires."
     (define-key map ">" #'enlarge-window-horizontally)
     (define-key map "<" #'shrink-window-horizontally)))
 
+;; by protesilaos
+(use-package winner
+  :straight nil
+  :init
+  (add-hook 'after-init-hook #'winner-mode)
+  (let ((map global-map))
+    (define-key map (kbd "<M-s-right>") #'winner-redo)
+    (define-key map (kbd "<M-s-left>") #'winner-undo)))
+
 (provide 'init-window)
 ;;; init-window.el ends here
