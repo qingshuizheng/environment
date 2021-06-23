@@ -199,6 +199,12 @@
 
 
 
+(use-package goto-last-change
+  :config
+  :bind (("C-z" . goto-last-change)))
+
+
+
 (use-package paren
   :straight nil
   :hook ((prog-mode . show-paren-mode))
