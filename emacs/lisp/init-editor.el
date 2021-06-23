@@ -194,6 +194,11 @@
 
 
 
+(use-package delsel
+  :hook (after-init . delete-selection-mode))
+
+
+
 (use-package paren
   :straight nil
   :hook ((prog-mode . show-paren-mode))
