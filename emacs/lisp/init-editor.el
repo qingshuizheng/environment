@@ -225,5 +225,14 @@
 
 
 
+(use-package saveplace
+  :straight nil
+  :hook (after-init . save-place-mode)
+  :init
+  (setq save-place-file (expand-file-name "saveplace" path-cache-dir))
+  (setq save-place-forget-unreadable-files t))
+
+
+
 (provide 'init-editor)
 ;;; init-editor.el ends here
