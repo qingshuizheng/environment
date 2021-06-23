@@ -234,5 +234,10 @@
 
 
 
+(use-package auto-compile
+  :hook (emacs-lisp-mode . auto-compile-on-save-mode))
+
+
+
 (provide 'init-editor)
 ;;; init-editor.el ends here
