@@ -98,5 +98,112 @@ the undo expires."
   "wv" '(window-split-vertically-and-focus
          :which-key "split frame vertically and focus"))
 
+;; by protesilaos
+(use-package window
+  :straight nil
+  :init
+  (setq display-buffer-alist
+        `(;; top side window
+          ("\\**prot-elfeed-bongo-queue.*"
+           (display-buffer-reuse-window display-buffer-in-side-window)
+           (window-height . 0.16)
+           (side . top)
+           (slot . -2))
+          ("\\*\\(prot-elfeed-mpv-output\\|world-clock\\).*"
+           (display-buffer-in-side-window)
+           (window-height . 0.16)
+           (side . top)
+           (slot . -1))
+          ("\\*\\(Flymake\\|Package-Lint\\|vc-git :\\).*"
+           (display-buffer-in-side-window)
+           (window-height . 0.16)
+           (side . top)
+           (slot . 0))
+          ("\\*Messages.*"
+           (display-buffer-in-side-window)
+           (window-height . 0.16)
+           (side . top)
+           (slot . 1))
+          ("\\*\\(Backtrace\\|Warnings\\|Compile-Log\\)\\*"
+           (display-buffer-in-side-window)
+           (window-height . 0.16)
+           (side . top)
+           (slot . 2)
+           (window-parameters . ((no-other-window . t))))
+          ;; bottom side window
+          ("\\*\\(Embark\\)?.*Completions.*"
+           (display-buffer-in-side-window)
+           (side . bottom)
+           (slot . 0)
+           (window-parameters . ((no-other-window . t)
+                                 (mode-line-format . none))))
+          ;; left side window
+          ;; right side window
+          ("\\*Help.*"
+           (display-buffer-in-side-window)
+           (window-width . 0.20)        ; See the :hook
+           (side . right)
+           (slot . 0))
+          ("\\*keycast\\*"
+           (display-buffer-in-side-window)
+           (dedicated . t)
+           (window-width . 0.25)
+           (side . right)
+           (slot . -1)
+           (window-parameters . ((no-other-window . t)
+                                 (mode-line-format . none))))
+          ("\\*Faces\\*"
+           (display-buffer-in-side-window)
+           (window-width . 0.25)
+           (side . right)
+           (slot . 0))
+          ("\\*Custom.*"
+           (display-buffer-in-side-window)
+           (window-width . 0.25)
+           (side . right)
+           (slot . 1))
+          ;; bottom buffer (NOT side window)
+          ("\\*\\vc-\\(incoming\\|outgoing\\).*"
+           (display-buffer-at-bottom))
+          ("\\*\\(Output\\|Register Preview\\).*"
+           (display-buffer-at-bottom))
+          ("\\*.*\\(e?shell\\|v?term\\).*"
+           (display-buffer-reuse-mode-window display-buffer-at-bottom)
+           (window-height . 0.2))
+          ;; below current window
+          ("\\*Calendar.*"
+           (display-buffer-reuse-mode-window
+            display-buffer-below-selected)
+           (window-height . shrink-window-if-larger-than-buffer))))
+  (setq window-combination-resize t)
+  (setq even-window-sizes 'height-only)
+  (setq window-sides-vertical nil)
+  (setq switch-to-buffer-in-dedicated-window 'pop)
+  (add-hook 'help-mode-hook #'visual-line-mode)
+  (add-hook 'custom-mode-hook #'visual-line-mode)
+  (let ((map global-map))
+    (define-key map (kbd "s-n") #'next-buffer)
+    (define-key map (kbd "s-p") #'previous-buffer)
+    (define-key map (kbd "s-o") #'other-window)
+    (define-key map (kbd "s-2") #'split-window-below)
+    (define-key map (kbd "s-3") #'split-window-right)
+    (define-key map (kbd "s-0") #'delete-window)
+    (define-key map (kbd "s-1") #'delete-other-windows)
+    (define-key map (kbd "s-!") #'delete-other-windows-vertically)
+    (define-key map (kbd "s-5") #'delete-frame)
+    (define-key map (kbd "C-x _") #'balance-windows)
+    (define-key map (kbd "C-x -") #'fit-window-to-buffer)
+    (define-key map (kbd "C-x +") #'balance-windows-area)
+    (define-key map (kbd "s-q") #'window-toggle-side-windows)
+    (define-key map (kbd "C-x }") #'enlarge-window)
+    (define-key map (kbd "C-x {") #'shrink-window)
+                                        ; override "scroll-right"
+    (define-key map (kbd "C-x >") #'enlarge-window-horizontally)
+                                        ; override "scroll-left"
+    (define-key map (kbd "C-x <") #'shrink-window-horizontally))
+  (let ((map resize-window-repeat-map))
+    (define-key map ">" #'enlarge-window-horizontally)
+    (define-key map "<" #'shrink-window-horizontally)))
+
 (provide 'init-window)
 ;;; init-window.el ends here
