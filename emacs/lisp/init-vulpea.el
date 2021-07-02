@@ -108,6 +108,9 @@
    org-startup-folded t
    org-startup-indented t)
 
+  ;; M-RET behavior
+  (setq org-M-RET-may-split-line '((default . nil)))
+
   ;; org-ellipsis
   (setq org-ellipsis " ▼") ;; for further use: ⤵
 
