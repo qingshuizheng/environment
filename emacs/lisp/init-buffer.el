@@ -225,5 +225,11 @@ for a file to visit if current buffer is not visiting a file."
 
 
 
+;; Scratch buffers per major-mode
+(use-package scratch
+  :bind ("C-c s" . scratch))
+
+
+
 (provide 'init-buffer)
 ;;; init-buffer.el ends here
