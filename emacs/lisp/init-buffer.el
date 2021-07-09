@@ -207,5 +207,23 @@ for a file to visit if current buffer is not visiting a file."
 
 
 
+(use-package minibuffer
+  :straight nil
+  :init
+  (setq completion-ignore-case t)
+
+  ;; Non-nil if searches and matches should ignore case.
+  (setq-default case-fold-search t)     ; For general regexp
+
+  (let ((map global-map))
+    (define-key map (kbd "s-b") #'switch-to-buffer)
+    (define-key map (kbd "s-B") #'switch-to-buffer-other-window)
+    (define-key map (kbd "s-f") #'find-file)
+    (define-key map (kbd "s-F") #'find-file-other-window)
+    (define-key map (kbd "s-d") #'dired)
+    (define-key map (kbd "s-D") #'dired-other-window)))
+
+
+
 (provide 'init-buffer)
 ;;; init-buffer.el ends here
